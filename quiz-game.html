@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Quiz Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        .quiz-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #4a5568;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+        }
+
+        .question {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+        }
+
+        .option:hover {
+            background: #edf2f7;
+            border-color: #cbd5e0;
+            transform: translateY(-2px);
+        }
+
+        .option.selected {
+            background: #4299e1;
+            color: white;
+            border-color: #3182ce;
+        }
+
+        .option.correct {
+            background: #48bb78;
+            color: white;
+            border-color: #38a169;
+        }
+
+        .option.incorrect {
+            background: #f56565;
+            color: white;
+            border-color: #e53e3e;
+        }
+
+        .btn {
+            background: #4299e1;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            background: #3182ce;
+        }
+
+        .btn:disabled {
+            background: #a0aec0;
+            cursor: not-allowed;
+        }
+
+        .score {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #4a5568;
+        }
+
+        .progress {
+            background: #e2e8f0;
+            border-radius: 10px;
+            height: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: #4299e1;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .result {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .result.excellent {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .result.good {
+            background: #fef5e7;
+            color: #744210;
+        }
+
+        .result.poor {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>🧠 Quiz Game</h1>
+        
+        <div id="start-screen">
+            <p style="font-size: 1.2em; margin-bottom: 30px; color: #4a5568;">Test your knowledge with our fun quiz!</p>
+            <button class="btn" onclick="startQuiz()">Start Quiz</button>
+        </div>
+
+        <div id="quiz-screen" class="hidden">
+            <div class="progress">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            
+            <div class="score" id="score">Score: 0/0</div>
+            
+            <div class="question-container">
+                <div class="question" id="question"></div>
+                <div class="options" id="options"></div>
+            </div>
+            
+            <button class="btn" id="next-btn" onclick="nextQuestion()" disabled>Next Question</button>
+        </div>
+
+        <div id="result-screen" class="hidden">
+            <div class="result" id="final-result"></div>
+            <button class="btn" onclick="restartQuiz()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "What is the capital of France?",
+                options: ["London", "Berlin", "Paris", "Madrid"],
+                correct: 2
+            },
+            {
+                question: "Which planet is known as the Red Planet?",
+                options: ["Venus", "Mars", "Jupiter", "Saturn"],
+                correct: 1
+            },
+            {
+                question: "What is 2 + 2?",
+                options: ["3", "4", "5", "6"],
+                correct: 1
+            },
+            {
+                question: "Who painted the Mona Lisa?",
+                options: ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Michelangelo"],
+                correct: 2
+            },
+            {
+                question: "What is the largest ocean on Earth?",
+                options: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
+                correct: 3
+            },
+            {
+                question: "Which programming language is known as the 'language of the web'?",
+                options: ["Python", "JavaScript", "Java", "C++"],
+                correct: 1
+            },
+            {
+                question: "What year did World War II end?",
+                options: ["1944", "1945", "1946", "1947"],
+                correct: 1
+            },
+            {
+                question: "Which element has the chemical symbol 'O'?",
+                options: ["Gold", "Silver", "Oxygen", "Iron"],
+                correct: 2
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedAnswer = null;
+        let quizQuestions = [];
+
+        function startQuiz() {
+            // Shuffle questions for variety
+            quizQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 5);
+            currentQuestion = 0;
+            score = 0;
+            selectedAnswer = null;
+            
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            document.getElementById('result-screen').classList.add('hidden');
+            
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const question = quizQuestions[currentQuestion];
+            document.getElementById('question').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = option;
+                optionElement.onclick = () => selectAnswer(index);
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            updateProgress();
+            updateScore();
+            document.getElementById('next-btn').disabled = true;
+            selectedAnswer = null;
+        }
+
+        function selectAnswer(index) {
+            if (selectedAnswer !== null) return; // Prevent multiple selections
+            
+            selectedAnswer = index;
+            const options = document.querySelectorAll('.option');
+            const correct = quizQuestions[currentQuestion].correct;
+            
+            options.forEach((option, i) => {
+                if (i === correct) {
+                    option.classList.add('correct');
+                } else if (i === index && i !== correct) {
+                    option.classList.add('incorrect');
+                }
+                option.style.pointerEvents = 'none';
+            });
+            
+            if (index === correct) {
+                score++;
+            }
+            
+            document.getElementById('next-btn').disabled = false;
+            updateScore();
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion < quizQuestions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / quizQuestions.length) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = `Score: ${score}/${currentQuestion + (selectedAnswer !== null ? 1 : 0)}`;
+        }
+
+        function showResults() {
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            
+            const percentage = (score / quizQuestions.length) * 100;
+            const resultElement = document.getElementById('final-result');
+            
+            let resultClass, resultText;
+            
+            if (percentage >= 80) {
+                resultClass = 'excellent';
+                resultText = `🎉 Excellent! You scored ${score}/${quizQuestions.length} (${percentage.toFixed(0)}%)`;
+            } else if (percentage >= 60) {
+                resultClass = 'good';
+                resultText = `👍 Good job! You scored ${score}/${quizQuestions.length} (${percentage.toFixed(0)}%)`;
+            } else {
+                resultClass = 'poor';
+                resultText = `📚 Keep studying! You scored ${score}/${quizQuestions.length} (${percentage.toFixed(0)}%)`;
+            }
+            
+            resultElement.className = `result ${resultClass}`;
+            resultElement.textContent = resultText;
+        }
+
+        function restartQuiz() {
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
