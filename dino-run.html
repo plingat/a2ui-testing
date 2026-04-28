@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dino Run</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 70%, #DEB887 70%, #DEB887 100%);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #gameContainer {
+            width: 800px;
+            height: 400px;
+            position: relative;
+            border: 2px solid #333;
+            background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 70%, #DEB887 70%, #DEB887 100%);
+            overflow: hidden;
+        }
+
+        #dino {
+            width: 40px;
+            height: 40px;
+            background: #228B22;
+            position: absolute;
+            bottom: 80px;
+            left: 50px;
+            border-radius: 5px;
+            transition: bottom 0.1s;
+        }
+
+        .obstacle {
+            width: 20px;
+            height: 40px;
+            background: #8B4513;
+            position: absolute;
+            bottom: 80px;
+            border-radius: 3px;
+        }
+
+        .cloud {
+            width: 60px;
+            height: 30px;
+            background: white;
+            position: absolute;
+            border-radius: 15px;
+            opacity: 0.8;
+        }
+
+        #ground {
+            width: 100%;
+            height: 80px;
+            background: #DEB887;
+            position: absolute;
+            bottom: 0;
+            border-top: 2px solid #8B7355;
+        }
+
+        #score {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        #gameOver {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        #startScreen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        .instructions {
+            margin: 10px 0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="ground"></div>
+        <div id="dino"></div>
+        <div id="score">Score: 0</div>
+        
+        <div id="startScreen">
+            <h1>Dino Run</h1>
+            <div class="instructions">Press SPACE or click to jump!</div>
+            <button onclick="startGame()">Start Game</button>
+        </div>
+        
+        <div id="gameOver">
+            <h2>Game Over!</h2>
+            <div id="finalScore">Score: 0</div>
+            <button onclick="restartGame()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        class DinoGame {
+            constructor() {
+                this.dino = document.getElementById('dino');
+                this.gameContainer = document.getElementById('gameContainer');
+                this.scoreElement = document.getElementById('score');
+                this.gameOverScreen = document.getElementById('gameOver');
+                this.startScreen = document.getElementById('startScreen');
+                this.finalScoreElement = document.getElementById('finalScore');
+                
+                this.isJumping = false;
+                this.isGameRunning = false;
+                this.score = 0;
+                this.gameSpeed = 2;
+                this.obstacles = [];
+                this.clouds = [];
+                this.jumpHeight = 0;
+                this.gravity = 0.8;
+                this.jumpPower = 0;
+                
+                this.groundLevel = 80;
+                this.dinoBottom = this.groundLevel;
+                
+                this.setupEventListeners();
+                this.createClouds();
+            }
+            
+            setupEventListeners() {
+                document.addEventListener('keydown', (e) => {
+                    if (e.code === 'Space') {
+                        e.preventDefault();
+                        if (this.isGameRunning) {
+                            this.jump();
+                        }
+                    }
+                });
+                
+                this.gameContainer.addEventListener('click', () => {
+                    if (this.isGameRunning) {
+                        this.jump();
+                    }
+                });
+            }
+            
+            jump() {
+                if (!this.isJumping) {
+                    this.isJumping = true;
+                    this.jumpPower = 15;
+                }
+            }
+            
+            updateDino() {
+                if (this.isJumping) {
+                    this.dinoBottom += this.jumpPower;
+                    this.jumpPower -= this.gravity;
+                    
+                    if (this.dinoBottom <= this.groundLevel) {
+                        this.dinoBottom = this.groundLevel;
+                        this.isJumping = false;
+                        this.jumpPower = 0;
+                    }
+                }
+                
+                this.dino.style.bottom = this.dinoBottom + 'px';
+            }
+            
+            createObstacle() {
+                const obstacle = document.createElement('div');
+                obstacle.className = 'obstacle';
+                obstacle.style.right = '-20px';
+                this.gameContainer.appendChild(obstacle);
+                this.obstacles.push({
+                    element: obstacle,
+                    x: 820
+                });
+            }
+            
+            updateObstacles() {
+                this.obstacles.forEach((obstacle, index) => {
+                    obstacle.x -= this.gameSpeed;
+                    obstacle.element.style.right = (820 - obstacle.x) + 'px';
+                    
+                    // Remove obstacles that are off screen
+                    if (obstacle.x < -20) {
+                        obstacle.element.remove();
+                        this.obstacles.splice(index, 1);
+                        this.score += 10;
+                        this.scoreElement.textContent = `Score: ${this.score}`;
+                        
+                        // Increase game speed gradually
+                        if (this.score % 100 === 0) {
+                            this.gameSpeed += 0.5;
+                        }
+                    }
+                });
+            }
+            
+            createClouds() {
+                for (let i = 0; i < 3; i++) {
+                    const cloud = document.createElement('div');
+                    cloud.className = 'cloud';
+                    cloud.style.right = Math.random() * 800 + 'px';
+                    cloud.style.top = Math.random() * 100 + 20 + 'px';
+                    this.gameContainer.appendChild(cloud);
+                    this.clouds.push({
+                        element: cloud,
+                        x: Math.random() * 800,
+                        speed: 0.5 + Math.random() * 0.5
+                    });
+                }
+            }
+            
+            updateClouds() {
+                this.clouds.forEach(cloud => {
+                    cloud.x -= cloud.speed;
+                    cloud.element.style.right = (800 - cloud.x) + 'px';
+                    
+                    if (cloud.x < -60) {
+                        cloud.x = 860;
+                    }
+                });
+            }
+            
+            checkCollision() {
+                const dinoRect = {
+                    left: 50,
+                    right: 90,
+                    top: 400 - this.dinoBottom - 40,
+                    bottom: 400 - this.dinoBottom
+                };
+                
+                this.obstacles.forEach(obstacle => {
+                    const obstacleRect = {
+                        left: obstacle.x,
+                        right: obstacle.x + 20,
+                        top: 400 - this.groundLevel - 40,
+                        bottom: 400 - this.groundLevel
+                    };
+                    
+                    if (dinoRect.right > obstacleRect.left &&
+                        dinoRect.left < obstacleRect.right &&
+                        dinoRect.bottom > obstacleRect.top &&
+                        dinoRect.top < obstacleRect.bottom) {
+                        this.gameOver();
+                    }
+                });
+            }
+            
+            gameOver() {
+                this.isGameRunning = false;
+                this.finalScoreElement.textContent = `Score: ${this.score}`;
+                this.gameOverScreen.style.display = 'block';
+            }
+            
+            startGame() {
+                this.isGameRunning = true;
+                this.score = 0;
+                this.gameSpeed = 2;
+                this.obstacles = [];
+                this.dinoBottom = this.groundLevel;
+                this.isJumping = false;
+                this.jumpPower = 0;
+                
+                // Clear existing obstacles
+                document.querySelectorAll('.obstacle').forEach(obs => obs.remove());
+                
+                this.startScreen.style.display = 'none';
+                this.gameOverScreen.style.display = 'none';
+                this.scoreElement.textContent = 'Score: 0';
+                
+                this.gameLoop();
+            }
+            
+            gameLoop() {
+                if (!this.isGameRunning) return;
+                
+                this.updateDino();
+                this.updateObstacles();
+                this.updateClouds();
+                this.checkCollision();
+                
+                // Create new obstacles randomly
+                if (Math.random() < 0.005 + (this.score * 0.000001)) {
+                    this.createObstacle();
+                }
+                
+                requestAnimationFrame(() => this.gameLoop());
+            }
+        }
+        
+        const game = new DinoGame();
+        
+        function startGame() {
+            game.startGame();
+        }
+        
+        function restartGame() {
+            game.startGame();
+        }
+    </script>
+</body>
+</html>
