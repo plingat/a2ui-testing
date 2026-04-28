@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dino Run</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 70%, #DEB887 70%, #DEB887 100%);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #gameContainer {
+            width: 800px;
+            height: 400px;
+            position: relative;
+            border: 2px solid #333;
+            background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 70%, #DEB887 70%, #DEB887 100%);
+            overflow: hidden;
+        }
+
+        #ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 120px;
+            background: #DEB887;
+            border-top: 2px solid #8B7355;
+        }
+
+        #dino {
+            position: absolute;
+            bottom: 120px;
+            left: 50px;
+            width: 40px;
+            height: 40px;
+            background: #228B22;
+            border-radius: 5px;
+            transition: bottom 0.3s ease;
+        }
+
+        .obstacle {
+            position: absolute;
+            bottom: 120px;
+            width: 20px;
+            height: 40px;
+            background: #8B4513;
+            border-radius: 3px;
+        }
+
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 20px;
+            opacity: 0.8;
+        }
+
+        #score {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        #gameOver {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        #startScreen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background: #228B22;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        button:hover {
+            background: #32CD32;
+        }
+
+        .jumping {
+            bottom: 200px !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="ground"></div>
+        <div id="dino"></div>
+        <div id="score">Score: 0</div>
+        
+        <div id="startScreen">
+            <h1>Dino Run</h1>
+            <p>Press SPACE or click to jump over obstacles!</p>
+            <button onclick="startGame()">Start Game</button>
+        </div>
+        
+        <div id="gameOver">
+            <h2>Game Over!</h2>
+            <p id="finalScore">Score: 0</p>
+            <button onclick="restartGame()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        let gameState = {
+            isRunning: false,
+            score: 0,
+            obstacles: [],
+            clouds: [],
+            gameSpeed: 2,
+            obstacleSpawnRate: 0.02,
+            isJumping: false
+        };
+
+        const dino = document.getElementById('dino');
+        const gameContainer = document.getElementById('gameContainer');
+        const scoreElement = document.getElementById('score');
+        const gameOverScreen = document.getElementById('gameOver');
+        const startScreen = document.getElementById('startScreen');
+        const finalScoreElement = document.getElementById('finalScore');
+
+        function startGame() {
+            gameState.isRunning = true;
+            gameState.score = 0;
+            gameState.obstacles = [];
+            gameState.clouds = [];
+            gameState.gameSpeed = 2;
+            gameState.isJumping = false;
+            
+            startScreen.style.display = 'none';
+            gameOverScreen.style.display = 'none';
+            
+            // Reset dino position
+            dino.classList.remove('jumping');
+            
+            // Clear existing obstacles and clouds
+            document.querySelectorAll('.obstacle').forEach(obs => obs.remove());
+            document.querySelectorAll('.cloud').forEach(cloud => cloud.remove());
+            
+            // Generate initial clouds
+            generateClouds();
+            
+            gameLoop();
+        }
+
+        function restartGame() {
+            startGame();
+        }
+
+        function jump() {
+            if (!gameState.isJumping && gameState.isRunning) {
+                gameState.isJumping = true;
+                dino.classList.add('jumping');
+                
+                setTimeout(() => {
+                    dino.classList.remove('jumping');
+                    gameState.isJumping = false;
+                }, 600);
+            }
+        }
+
+        function createObstacle() {
+            const obstacle = document.createElement('div');
+            obstacle.className = 'obstacle';
+            obstacle.style.right = '-20px';
+            gameContainer.appendChild(obstacle);
+            gameState.obstacles.push({
+                element: obstacle,
+                x: 820
+            });
+        }
+
+        function createCloud() {
+            const cloud = document.createElement('div');
+            cloud.className = 'cloud';
+            cloud.style.width = Math.random() * 60 + 40 + 'px';
+            cloud.style.height = Math.random() * 30 + 20 + 'px';
+            cloud.style.right = '-100px';
+            cloud.style.top = Math.random() * 200 + 50 + 'px';
+            gameContainer.appendChild(cloud);
+            gameState.clouds.push({
+                element: cloud,
+                x: 900,
+                speed: Math.random() * 0.5 + 0.5
+            });
+        }
+
+        function generateClouds() {
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => createCloud(), i * 2000);
+            }
+        }
+
+        function updateObstacles() {
+            // Spawn new obstacles
+            if (Math.random() < gameState.obstacleSpawnRate) {
+                createObstacle();
+            }
+
+            // Update obstacle positions
+            gameState.obstacles.forEach((obstacle, index) => {
+                obstacle.x -= gameState.gameSpeed;
+                obstacle.element.style.right = (820 - obstacle.x) + 'px';
+
+                // Remove obstacles that are off screen
+                if (obstacle.x < -20) {
+                    obstacle.element.remove();
+                    gameState.obstacles.splice(index, 1);
+                    gameState.score += 10;
+                }
+            });
+        }
+
+        function updateClouds() {
+            // Spawn new clouds occasionally
+            if (Math.random() < 0.005) {
+                createCloud();
+            }
+
+            // Update cloud positions
+            gameState.clouds.forEach((cloud, index) => {
+                cloud.x -= cloud.speed;
+                cloud.element.style.right = (900 - cloud.x) + 'px';
+
+                // Remove clouds that are off screen
+                if (cloud.x < -100) {
+                    cloud.element.remove();
+                    gameState.clouds.splice(index, 1);
+                }
+            });
+        }
+
+        function checkCollisions() {
+            const dinoRect = {
+                left: 50,
+                right: 90,
+                top: gameState.isJumping ? 240 : 160,
+                bottom: 120
+            };
+
+            gameState.obstacles.forEach(obstacle => {
+                const obstacleRect = {
+                    left: obstacle.x,
+                    right: obstacle.x + 20,
+                    top: 160,
+                    bottom: 120
+                };
+
+                if (dinoRect.right > obstacleRect.left &&
+                    dinoRect.left < obstacleRect.right &&
+                    dinoRect.bottom < obstacleRect.top &&
+                    dinoRect.top > obstacleRect.bottom) {
+                    gameOver();
+                }
+            });
+        }
+
+        function updateScore() {
+            scoreElement.textContent = `Score: ${gameState.score}`;
+            
+            // Increase game speed based on score
+            gameState.gameSpeed = 2 + (gameState.score / 500);
+            gameState.obstacleSpawnRate = Math.min(0.02 + (gameState.score / 10000), 0.05);
+        }
+
+        function gameOver() {
+            gameState.isRunning = false;
+            finalScoreElement.textContent = `Score: ${gameState.score}`;
+            gameOverScreen.style.display = 'block';
+        }
+
+        function gameLoop() {
+            if (!gameState.isRunning) return;
+
+            updateObstacles();
+            updateClouds();
+            checkCollisions();
+            updateScore();
+            
+            // Continue score increment
+            gameState.score += 1;
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Event listeners
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                jump();
+            }
+        });
+
+        gameContainer.addEventListener('click', () => {
+            if (gameState.isRunning) {
+                jump();
+            }
+        });
+
+        // Touch support for mobile
+        gameContainer.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if (gameState.isRunning) {
+                jump();
+            }
+        });
+    </script>
+</body>
+</html>
