@@ -13,20 +13,20 @@
 
         body {
             font-family: Arial, sans-serif;
-            background: #f7f7f7;
+            background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 70%, #DEB887 70%, #DEB887 100%);
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
+            height: 100vh;
         }
 
         #gameContainer {
             width: 800px;
-            height: 200px;
-            background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 70%, #8B7355 70%, #8B7355 100%);
+            height: 400px;
             position: relative;
             border: 2px solid #333;
+            background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 70%, #DEB887 70%, #DEB887 100%);
             overflow: hidden;
         }
 
@@ -34,14 +34,14 @@
             position: absolute;
             bottom: 0;
             width: 100%;
-            height: 60px;
-            background: #8B7355;
-            border-top: 2px solid #654321;
+            height: 120px;
+            background: #DEB887;
+            border-top: 3px solid #8B7355;
         }
 
         #dino {
             position: absolute;
-            bottom: 60px;
+            bottom: 120px;
             left: 50px;
             width: 40px;
             height: 40px;
@@ -74,7 +74,7 @@
 
         .obstacle {
             position: absolute;
-            bottom: 60px;
+            bottom: 120px;
             width: 20px;
             height: 40px;
             background: #8B4513;
@@ -99,7 +99,8 @@
         .cloud1 {
             width: 50px;
             height: 20px;
-            top: 30px;
+            top: 50px;
+            animation: moveCloud 15s linear infinite;
         }
 
         .cloud1::before {
@@ -116,11 +117,16 @@
             right: 8px;
         }
 
+        @keyframes moveCloud {
+            from { right: -100px; }
+            to { right: 100%; }
+        }
+
         #score {
             position: absolute;
             top: 20px;
             right: 20px;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
             color: #333;
         }
@@ -144,7 +150,7 @@
             transform: translate(-50%, -50%);
             text-align: center;
             background: rgba(255, 255, 255, 0.9);
-            padding: 20px;
+            padding: 30px;
             border-radius: 10px;
         }
 
@@ -164,7 +170,7 @@
         }
 
         .jumping {
-            bottom: 140px !important;
+            bottom: 200px !important;
         }
     </style>
 </head>
@@ -174,8 +180,10 @@
         <div id="dino"></div>
         <div id="score">Score: 0</div>
         
+        <div class="cloud cloud1"></div>
+        
         <div id="startScreen">
-            <h2>Dino Run</h2>
+            <h1>🦕 Dino Run</h1>
             <p>Press SPACE or click to jump over obstacles!</p>
             <button onclick="startGame()">Start Game</button>
         </div>
@@ -192,72 +200,51 @@
         let score = 0;
         let gameSpeed = 2;
         let obstacles = [];
-        let clouds = [];
-        let isJumping = false;
         let gameLoop;
+        let obstacleSpawnTimer;
+        let isJumping = false;
         
         const dino = document.getElementById('dino');
-        const gameContainer = document.getElementById('gameContainer');
         const scoreElement = document.getElementById('score');
         const gameOverScreen = document.getElementById('gameOver');
         const startScreen = document.getElementById('startScreen');
         const finalScoreElement = document.getElementById('finalScore');
-        
+        const gameContainer = document.getElementById('gameContainer');
+
         function startGame() {
             gameRunning = true;
             score = 0;
             gameSpeed = 2;
             obstacles = [];
-            clouds = [];
             isJumping = false;
             
             startScreen.style.display = 'none';
             gameOverScreen.style.display = 'none';
-            
-            // Clear existing obstacles and clouds
-            document.querySelectorAll('.obstacle').forEach(obs => obs.remove());
-            document.querySelectorAll('.cloud').forEach(cloud => cloud.remove());
-            
-            // Reset dino position
             dino.classList.remove('jumping');
             
-            gameLoop = setInterval(updateGame, 20);
+            // Clear existing obstacles
+            document.querySelectorAll('.obstacle').forEach(obs => obs.remove());
             
-            // Add initial clouds
-            createCloud();
+            gameLoop = setInterval(updateGame, 20);
+            obstacleSpawnTimer = setInterval(spawnObstacle, 2000);
+            
+            updateScore();
         }
-        
+
         function updateGame() {
             if (!gameRunning) return;
             
-            // Update score
-            score += 1;
-            scoreElement.textContent = `Score: ${Math.floor(score / 10)}`;
-            
-            // Increase game speed gradually
-            if (score % 500 === 0) {
-                gameSpeed += 0.2;
-            }
-            
-            // Create obstacles
-            if (Math.random() < 0.005 + (gameSpeed / 1000)) {
-                createObstacle();
-            }
-            
-            // Create clouds
-            if (Math.random() < 0.003) {
-                createCloud();
-            }
-            
-            // Move and check obstacles
+            // Move obstacles
             obstacles.forEach((obstacle, index) => {
                 obstacle.x -= gameSpeed;
-                obstacle.element.style.left = obstacle.x + 'px';
+                obstacle.element.style.right = (800 - obstacle.x) + 'px';
                 
                 // Remove obstacles that are off screen
-                if (obstacle.x < -20) {
+                if (obstacle.x < -50) {
                     obstacle.element.remove();
                     obstacles.splice(index, 1);
+                    score += 10;
+                    updateScore();
                 }
                 
                 // Check collision
@@ -266,44 +253,28 @@
                 }
             });
             
-            // Move clouds
-            clouds.forEach((cloud, index) => {
-                cloud.x -= gameSpeed * 0.3;
-                cloud.element.style.left = cloud.x + 'px';
-                
-                // Remove clouds that are off screen
-                if (cloud.x < -100) {
-                    cloud.element.remove();
-                    clouds.splice(index, 1);
-                }
-            });
+            // Increase game speed gradually
+            gameSpeed += 0.001;
         }
-        
-        function createObstacle() {
+
+        function spawnObstacle() {
+            if (!gameRunning) return;
+            
             const obstacle = document.createElement('div');
             obstacle.className = 'obstacle';
-            obstacle.style.left = '800px';
-            gameContainer.appendChild(obstacle);
+            obstacle.style.right = '0px';
             
-            obstacles.push({
+            const obstacleObj = {
                 element: obstacle,
-                x: 800
-            });
-        }
-        
-        function createCloud() {
-            const cloud = document.createElement('div');
-            cloud.className = 'cloud cloud1';
-            cloud.style.left = '800px';
-            cloud.style.top = Math.random() * 60 + 20 + 'px';
-            gameContainer.appendChild(cloud);
+                x: 800,
+                width: 20,
+                height: 40
+            };
             
-            clouds.push({
-                element: cloud,
-                x: 800
-            });
+            obstacles.push(obstacleObj);
+            gameContainer.appendChild(obstacle);
         }
-        
+
         function jump() {
             if (!gameRunning || isJumping) return;
             
@@ -315,39 +286,45 @@
                 isJumping = false;
             }, 600);
         }
-        
+
         function checkCollision(obstacle) {
             const dinoRect = {
-                left: 50,
-                right: 90,
-                top: isJumping ? 60 : 100,
-                bottom: 140
+                x: 50,
+                y: isJumping ? 200 : 120,
+                width: 40,
+                height: 40
             };
             
             const obstacleRect = {
-                left: obstacle.x,
-                right: obstacle.x + 20,
-                top: 100,
-                bottom: 140
+                x: obstacle.x,
+                y: 120,
+                width: obstacle.width,
+                height: obstacle.height
             };
             
-            return dinoRect.right > obstacleRect.left &&
-                   dinoRect.left < obstacleRect.right &&
-                   dinoRect.bottom > obstacleRect.top &&
-                   dinoRect.top < obstacleRect.bottom;
+            return dinoRect.x < obstacleRect.x + obstacleRect.width &&
+                   dinoRect.x + dinoRect.width > obstacleRect.x &&
+                   dinoRect.y < obstacleRect.y + obstacleRect.height &&
+                   dinoRect.y + dinoRect.height > obstacleRect.y;
         }
-        
+
+        function updateScore() {
+            scoreElement.textContent = `Score: ${score}`;
+        }
+
         function endGame() {
             gameRunning = false;
             clearInterval(gameLoop);
-            finalScoreElement.textContent = `Score: ${Math.floor(score / 10)}`;
+            clearInterval(obstacleSpawnTimer);
+            
+            finalScoreElement.textContent = `Score: ${score}`;
             gameOverScreen.style.display = 'block';
         }
-        
+
         function restartGame() {
             startGame();
         }
-        
+
         // Event listeners
         document.addEventListener('keydown', (e) => {
             if (e.code === 'Space') {
@@ -359,19 +336,18 @@
                 }
             }
         });
-        
-        gameContainer.addEventListener('click', () => {
-            if (!gameRunning && startScreen.style.display !== 'none') {
-                startGame();
-            } else {
+
+        document.addEventListener('click', () => {
+            if (gameRunning) {
                 jump();
             }
         });
-        
-        // Prevent spacebar from scrolling the page
-        window.addEventListener('keydown', (e) => {
-            if (e.code === 'Space') {
-                e.preventDefault();
+
+        // Touch support for mobile
+        document.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if (gameRunning) {
+                jump();
             }
         });
     </script>
