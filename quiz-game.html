@@ -35,127 +35,112 @@
             margin-bottom: 30px;
         }
 
-        .quiz-title {
-            font-size: 2.5em;
+        .quiz-header h1 {
             color: #667eea;
             margin-bottom: 10px;
-        }
-
-        .score {
-            font-size: 1.2em;
-            color: #666;
-            margin-bottom: 20px;
+            font-size: 2.5em;
         }
 
         .progress-bar {
-            width: 100%;
+            background: #f0f0f0;
+            border-radius: 10px;
             height: 10px;
-            background: #e0e0e0;
-            border-radius: 5px;
+            margin: 20px 0;
             overflow: hidden;
-            margin-bottom: 20px;
         }
 
         .progress {
-            height: 100%;
             background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%;
+            width: 0%;
             transition: width 0.3s ease;
         }
 
         .question-container {
-            margin-bottom: 30px;
+            margin: 30px 0;
         }
 
         .question {
-            font-size: 1.4em;
+            font-size: 1.3em;
             margin-bottom: 25px;
             color: #333;
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         .answers {
             display: grid;
             gap: 15px;
+            margin-bottom: 30px;
         }
 
         .answer-btn {
-            padding: 15px 20px;
-            border: 2px solid #e0e0e0;
-            background: white;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
             border-radius: 10px;
-            cursor: pointer;
+            padding: 15px 20px;
             font-size: 1.1em;
+            cursor: pointer;
             transition: all 0.3s ease;
+            text-align: left;
         }
 
         .answer-btn:hover {
+            background: #e9ecef;
             border-color: #667eea;
-            background: #f8f9ff;
             transform: translateY(-2px);
         }
 
-        .answer-btn.correct {
-            background: #4caf50;
+        .answer-btn.selected {
+            background: #667eea;
             color: white;
-            border-color: #4caf50;
+            border-color: #667eea;
+        }
+
+        .answer-btn.correct {
+            background: #28a745;
+            border-color: #28a745;
+            color: white;
         }
 
         .answer-btn.incorrect {
-            background: #f44336;
+            background: #dc3545;
+            border-color: #dc3545;
             color: white;
-            border-color: #f44336;
-        }
-
-        .answer-btn:disabled {
-            cursor: not-allowed;
-            opacity: 0.7;
         }
 
         .next-btn {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
+            border-radius: 10px;
             padding: 15px 30px;
-            border-radius: 25px;
             font-size: 1.1em;
             cursor: pointer;
-            margin-top: 20px;
             transition: transform 0.3s ease;
+            display: none;
         }
 
         .next-btn:hover {
             transform: translateY(-2px);
         }
 
-        .next-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
+        .score-container {
+            display: none;
         }
 
-        .results {
-            text-align: center;
-        }
-
-        .final-score {
+        .score {
             font-size: 3em;
             color: #667eea;
-            margin-bottom: 20px;
-        }
-
-        .result-message {
-            font-size: 1.3em;
-            margin-bottom: 30px;
-            color: #666;
+            margin: 20px 0;
         }
 
         .restart-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #28a745, #20c997);
             color: white;
             border: none;
+            border-radius: 10px;
             padding: 15px 30px;
-            border-radius: 25px;
-            font-size: 1.2em;
+            font-size: 1.1em;
             cursor: pointer;
             transition: transform 0.3s ease;
         }
@@ -164,30 +149,33 @@
             transform: translateY(-2px);
         }
 
-        .hidden {
-            display: none;
+        .question-counter {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1.1em;
         }
     </style>
 </head>
 <body>
     <div class="quiz-container">
         <div class="quiz-header">
-            <h1 class="quiz-title">🧠 Quiz Game</h1>
-            <div class="score">Score: <span id="score">0</span> / <span id="total">10</span></div>
+            <h1>🧠 Quiz Game</h1>
+            <div class="question-counter" id="questionCounter">Question 1 of 5</div>
             <div class="progress-bar">
                 <div class="progress" id="progress"></div>
             </div>
         </div>
 
-        <div id="quiz" class="question-container">
-            <div class="question" id="question"></div>
+        <div class="question-container" id="questionContainer">
+            <div class="question" id="question">Loading question...</div>
             <div class="answers" id="answers"></div>
-            <button class="next-btn" id="nextBtn" onclick="nextQuestion()" disabled>Next Question</button>
+            <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next Question</button>
         </div>
 
-        <div id="results" class="results hidden">
-            <div class="final-score" id="finalScore"></div>
-            <div class="result-message" id="resultMessage"></div>
+        <div class="score-container" id="scoreContainer">
+            <h2>🎉 Quiz Complete!</h2>
+            <div class="score" id="finalScore">0/5</div>
+            <p id="scoreMessage">Great job!</p>
             <button class="restart-btn" onclick="restartQuiz()">Play Again</button>
         </div>
     </div>
@@ -211,38 +199,13 @@
             },
             {
                 question: "Who painted the Mona Lisa?",
-                answers: ["Van Gogh", "Picasso", "Da Vinci", "Monet"],
+                answers: ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Michelangelo"],
                 correct: 2
             },
             {
                 question: "What is the largest ocean on Earth?",
-                answers: ["Atlantic", "Indian", "Arctic", "Pacific"],
+                answers: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
                 correct: 3
-            },
-            {
-                question: "Which element has the chemical symbol 'O'?",
-                answers: ["Gold", "Oxygen", "Silver", "Iron"],
-                correct: 1
-            },
-            {
-                question: "How many continents are there?",
-                answers: ["5", "6", "7", "8"],
-                correct: 2
-            },
-            {
-                question: "What is the smallest country in the world?",
-                answers: ["Monaco", "Vatican City", "San Marino", "Liechtenstein"],
-                correct: 1
-            },
-            {
-                question: "Which year did World War II end?",
-                answers: ["1944", "1945", "1946", "1947"],
-                correct: 1
-            },
-            {
-                question: "What is the fastest land animal?",
-                answers: ["Lion", "Cheetah", "Leopard", "Tiger"],
-                correct: 1
             }
         ];
 
@@ -253,6 +216,7 @@
         function loadQuestion() {
             const question = questions[currentQuestion];
             document.getElementById('question').textContent = question.question;
+            document.getElementById('questionCounter').textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
             
             const answersContainer = document.getElementById('answers');
             answersContainer.innerHTML = '';
@@ -261,38 +225,41 @@
                 const button = document.createElement('button');
                 button.className = 'answer-btn';
                 button.textContent = answer;
-                button.onclick = () => selectAnswer(index, button);
+                button.onclick = () => selectAnswer(index);
                 answersContainer.appendChild(button);
             });
             
-            document.getElementById('nextBtn').disabled = true;
+            document.getElementById('nextBtn').style.display = 'none';
             selectedAnswer = null;
             
-            updateProgress();
+            // Update progress bar
+            const progress = ((currentQuestion) / questions.length) * 100;
+            document.getElementById('progress').style.width = progress + '%';
         }
 
-        function selectAnswer(answerIndex, buttonElement) {
-            if (selectedAnswer !== null) return;
+        function selectAnswer(answerIndex) {
+            if (selectedAnswer !== null) return; // Prevent multiple selections
             
             selectedAnswer = answerIndex;
-            const question = questions[currentQuestion];
             const buttons = document.querySelectorAll('.answer-btn');
+            const correctAnswer = questions[currentQuestion].correct;
             
-            buttons.forEach((btn, index) => {
-                btn.disabled = true;
-                if (index === question.correct) {
-                    btn.classList.add('correct');
-                } else if (index === answerIndex && index !== question.correct) {
-                    btn.classList.add('incorrect');
+            buttons.forEach((button, index) => {
+                if (index === correctAnswer) {
+                    button.classList.add('correct');
+                } else if (index === answerIndex && index !== correctAnswer) {
+                    button.classList.add('incorrect');
+                } else {
+                    button.style.opacity = '0.5';
                 }
+                button.style.cursor = 'default';
             });
             
-            if (answerIndex === question.correct) {
+            if (answerIndex === correctAnswer) {
                 score++;
-                document.getElementById('score').textContent = score;
             }
             
-            document.getElementById('nextBtn').disabled = false;
+            document.getElementById('nextBtn').style.display = 'block';
         }
 
         function nextQuestion() {
@@ -305,30 +272,28 @@
             }
         }
 
-        function updateProgress() {
-            const progress = ((currentQuestion + 1) / questions.length) * 100;
-            document.getElementById('progress').style.width = progress + '%';
-        }
-
         function showResults() {
-            document.getElementById('quiz').classList.add('hidden');
-            document.getElementById('results').classList.remove('hidden');
-            
-            const percentage = Math.round((score / questions.length) * 100);
+            document.getElementById('questionContainer').style.display = 'none';
+            document.getElementById('scoreContainer').style.display = 'block';
             document.getElementById('finalScore').textContent = `${score}/${questions.length}`;
             
+            const percentage = (score / questions.length) * 100;
             let message = '';
-            if (percentage >= 90) {
-                message = '🎉 Excellent! You\'re a quiz master!';
-            } else if (percentage >= 70) {
-                message = '👏 Great job! Well done!';
-            } else if (percentage >= 50) {
-                message = '👍 Good effort! Keep learning!';
+            
+            if (percentage >= 80) {
+                message = 'Excellent! You\'re a quiz master! 🏆';
+            } else if (percentage >= 60) {
+                message = 'Good job! Keep it up! 👍';
+            } else if (percentage >= 40) {
+                message = 'Not bad! Room for improvement! 📚';
             } else {
-                message = '📚 Keep studying and try again!';
+                message = 'Keep practicing! You\'ll get better! 💪';
             }
             
-            document.getElementById('resultMessage').textContent = message;
+            document.getElementById('scoreMessage').textContent = message;
+            
+            // Complete progress bar
+            document.getElementById('progress').style.width = '100%';
         }
 
         function restartQuiz() {
@@ -336,15 +301,13 @@
             score = 0;
             selectedAnswer = null;
             
-            document.getElementById('score').textContent = score;
-            document.getElementById('quiz').classList.remove('hidden');
-            document.getElementById('results').classList.add('hidden');
+            document.getElementById('questionContainer').style.display = 'block';
+            document.getElementById('scoreContainer').style.display = 'none';
             
             loadQuestion();
         }
 
         // Initialize the quiz
-        document.getElementById('total').textContent = questions.length;
         loadQuestion();
     </script>
 </body>
