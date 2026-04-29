@@ -27,105 +27,78 @@
         .pr-header {
             background: white;
             border: 1px solid #d1d9e0;
-            border-radius: 12px;
-            padding: 24px;
+            border-radius: 6px;
+            padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
         .pr-title {
             font-size: 24px;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             color: #0969da;
         }
 
-        .pr-number {
-            color: #656d76;
+        .pr-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
             font-size: 14px;
+            color: #656d76;
         }
 
         .pr-status {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            margin: 16px 0;
-        }
-
-        .status-badge {
-            padding: 4px 12px;
+            gap: 5px;
+            padding: 4px 8px;
+            background: #dafbe1;
+            color: #1a7f37;
             border-radius: 20px;
             font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .status-open {
-            background-color: #2da44e;
-            color: white;
-        }
-
-        .pr-meta {
-            display: flex;
-            gap: 20px;
-            font-size: 14px;
-            color: #656d76;
-            margin-top: 12px;
+            font-weight: 500;
         }
 
         .pr-body {
             background: white;
             border: 1px solid #d1d9e0;
-            border-radius: 12px;
-            padding: 24px;
+            border-radius: 6px;
+            padding: 20px;
             margin-bottom: 20px;
         }
 
-        .section-title {
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section h3 {
             font-size: 16px;
             font-weight: 600;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             color: #24292f;
         }
 
-        .checklist {
-            list-style: none;
-            margin: 12px 0;
+        .section p, .section li {
+            color: #656d76;
+            margin-bottom: 5px;
         }
 
-        .checklist li {
-            margin: 8px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .checklist input[type="checkbox"] {
-            margin: 0;
-        }
-
-        .code-block {
-            background: #f6f8fa;
-            border: 1px solid #d1d9e0;
-            border-radius: 6px;
-            padding: 16px;
-            font-family: 'SFMono-Regular', Consolas, monospace;
-            font-size: 14px;
-            margin: 12px 0;
-            overflow-x: auto;
+        .section ul {
+            padding-left: 20px;
         }
 
         .files-changed {
             background: white;
             border: 1px solid #d1d9e0;
-            border-radius: 12px;
-            padding: 24px;
+            border-radius: 6px;
+            padding: 20px;
         }
 
         .file-item {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             padding: 8px 0;
             border-bottom: 1px solid #f6f8fa;
         }
@@ -134,32 +107,44 @@
             border-bottom: none;
         }
 
-        .file-stats {
+        .file-status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #1f883d;
+        }
+
+        .file-status.modified {
+            background: #fb8500;
+        }
+
+        .file-name {
+            font-family: 'SFMono-Regular', Consolas, monospace;
+            font-size: 14px;
+        }
+
+        .file-changes {
+            margin-left: auto;
             font-size: 12px;
             color: #656d76;
         }
 
-        .additions {
-            color: #2da44e;
-        }
-
-        .deletions {
-            color: #cf222e;
-        }
-
         .btn {
-            background: #2da44e;
-            color: white;
-            border: none;
+            display: inline-block;
             padding: 8px 16px;
+            background: #1f883d;
+            color: white;
+            text-decoration: none;
             border-radius: 6px;
-            cursor: pointer;
             font-size: 14px;
             font-weight: 500;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
         }
 
         .btn:hover {
-            background: #2c974b;
+            background: #1a7f37;
         }
 
         .btn-secondary {
@@ -173,8 +158,6 @@
         }
 
         .actions {
-            display: flex;
-            gap: 12px;
             margin-top: 20px;
         }
     </style>
@@ -183,112 +166,129 @@
     <div class="container">
         <div class="pr-header">
             <h1 class="pr-title">Add user authentication system</h1>
-            <span class="pr-number">#42</span>
-            
-            <div class="pr-status">
-                <span class="status-badge status-open">Open</span>
-                <span>wants to merge 5 commits into main from feature/auth</span>
-            </div>
-            
             <div class="pr-meta">
-                <span>👤 john-doe opened this 2 hours ago</span>
-                <span>💬 3 comments</span>
-                <span>✅ 2/3 checks passing</span>
+                <span class="pr-status">🟢 Open</span>
+                <span>john-doe wants to merge 5 commits into main from feature/auth</span>
+                <span>•</span>
+                <span>2 hours ago</span>
             </div>
         </div>
 
         <div class="pr-body">
-            <h3 class="section-title">Description</h3>
-            <p>This PR implements a complete user authentication system with login, registration, and password reset functionality.</p>
-            
-            <h3 class="section-title" style="margin-top: 24px;">Changes Made</h3>
-            <ul class="checklist">
-                <li><input type="checkbox" checked> ✅ Added user registration endpoint</li>
-                <li><input type="checkbox" checked> ✅ Implemented JWT token authentication</li>
-                <li><input type="checkbox" checked> ✅ Created login/logout functionality</li>
-                <li><input type="checkbox" checked> ✅ Added password hashing with bcrypt</li>
-                <li><input type="checkbox"> ⏳ Added email verification (in progress)</li>
-                <li><input type="checkbox"> ⏳ Updated documentation</li>
-            </ul>
-
-            <h3 class="section-title" style="margin-top: 24px;">Testing</h3>
-            <div class="code-block">
-npm test
-npm run test:auth
+            <div class="section">
+                <h3>📝 Description</h3>
+                <p>This PR implements a complete user authentication system including login, registration, and password reset functionality. The implementation uses JWT tokens for session management and includes proper input validation and security measures.</p>
             </div>
-            
-            <h3 class="section-title" style="margin-top: 24px;">Breaking Changes</h3>
-            <p>⚠️ This PR introduces breaking changes to the user model. Migration required.</p>
-            
-            <h3 class="section-title" style="margin-top: 24px;">Related Issues</h3>
-            <p>Closes #38, Fixes #41</p>
+
+            <div class="section">
+                <h3>✨ Changes Made</h3>
+                <ul>
+                    <li>Added user registration and login endpoints</li>
+                    <li>Implemented JWT token-based authentication</li>
+                    <li>Created password hashing and validation</li>
+                    <li>Added middleware for protected routes</li>
+                    <li>Implemented password reset functionality</li>
+                    <li>Added comprehensive input validation</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>🧪 Testing</h3>
+                <ul>
+                    <li>All existing tests pass</li>
+                    <li>Added unit tests for authentication functions</li>
+                    <li>Added integration tests for auth endpoints</li>
+                    <li>Tested password reset flow manually</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>📋 Checklist</h3>
+                <ul>
+                    <li>✅ Code follows project style guidelines</li>
+                    <li>✅ Self-review completed</li>
+                    <li>✅ Tests added/updated</li>
+                    <li>✅ Documentation updated</li>
+                    <li>✅ No breaking changes</li>
+                </ul>
+            </div>
         </div>
 
         <div class="files-changed">
-            <h3 class="section-title">Files Changed (8)</h3>
-            
+            <h3 style="margin-bottom: 15px;">📁 Files Changed (8)</h3>
             <div class="file-item">
-                <span>📄 src/auth/auth.controller.js</span>
-                <span class="file-stats"><span class="additions">+127</span> <span class="deletions">-0</span></span>
+                <div class="file-status"></div>
+                <span class="file-name">src/auth/auth.controller.js</span>
+                <span class="file-changes">+127 -0</span>
             </div>
-            
             <div class="file-item">
-                <span>📄 src/auth/auth.service.js</span>
-                <span class="file-stats"><span class="additions">+89</span> <span class="deletions">-0</span></span>
+                <div class="file-status"></div>
+                <span class="file-name">src/auth/auth.service.js</span>
+                <span class="file-changes">+89 -0</span>
             </div>
-            
             <div class="file-item">
-                <span>📄 src/models/user.model.js</span>
-                <span class="file-stats"><span class="additions">+45</span> <span class="deletions">-12</span></span>
+                <div class="file-status"></div>
+                <span class="file-name">src/middleware/auth.middleware.js</span>
+                <span class="file-changes">+45 -0</span>
             </div>
-            
             <div class="file-item">
-                <span>📄 src/middleware/auth.middleware.js</span>
-                <span class="file-stats"><span class="additions">+34</span> <span class="deletions">-0</span></span>
+                <div class="file-status modified"></div>
+                <span class="file-name">src/app.js</span>
+                <span class="file-changes">+12 -3</span>
             </div>
-            
             <div class="file-item">
-                <span>📄 tests/auth.test.js</span>
-                <span class="file-stats"><span class="additions">+156</span> <span class="deletions">-0</span></span>
+                <div class="file-status"></div>
+                <span class="file-name">tests/auth.test.js</span>
+                <span class="file-changes">+156 -0</span>
             </div>
-            
             <div class="file-item">
-                <span>📄 package.json</span>
-                <span class="file-stats"><span class="additions">+3</span> <span class="deletions">-0</span></span>
+                <div class="file-status modified"></div>
+                <span class="file-name">package.json</span>
+                <span class="file-changes">+3 -0</span>
             </div>
-            
             <div class="file-item">
-                <span>📄 README.md</span>
-                <span class="file-stats"><span class="additions">+28</span> <span class="deletions">-5</span></span>
+                <div class="file-status"></div>
+                <span class="file-name">docs/authentication.md</span>
+                <span class="file-changes">+78 -0</span>
             </div>
-            
             <div class="file-item">
-                <span>📄 .env.example</span>
-                <span class="file-stats"><span class="additions">+4</span> <span class="deletions">-0</span></span>
+                <div class="file-status modified"></div>
+                <span class="file-name">README.md</span>
+                <span class="file-changes">+15 -2</span>
             </div>
         </div>
 
         <div class="actions">
-            <button class="btn">Merge pull request</button>
-            <button class="btn btn-secondary">Close pull request</button>
-            <button class="btn btn-secondary">Add to project</button>
+            <button class="btn" onclick="mergePR()">Merge pull request</button>
+            <button class="btn btn-secondary" onclick="closePR()">Close pull request</button>
+            <button class="btn btn-secondary" onclick="addReview()">Add review</button>
         </div>
     </div>
 
     <script>
-        // Simple interactivity for checkboxes
-        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
-                console.log('Checkbox toggled:', this.checked);
-            });
-        });
+        function mergePR() {
+            alert('Pull request merged successfully! 🎉');
+        }
 
-        // Button click handlers
-        document.querySelectorAll('.btn').forEach(button => {
-            button.addEventListener('click', function() {
-                alert(`${this.textContent} clicked!`);
-            });
-        });
+        function closePR() {
+            if (confirm('Are you sure you want to close this pull request?')) {
+                alert('Pull request closed.');
+            }
+        }
+
+        function addReview() {
+            const review = prompt('Add your review comments:');
+            if (review) {
+                alert('Review submitted: ' + review);
+            }
+        }
+
+        // Simulate real-time updates
+        setInterval(() => {
+            const statusElement = document.querySelector('.pr-status');
+            const statuses = ['🟢 Open', '🟡 Draft', '🔴 Closed', '🟣 Merged'];
+            // Keep it as Open for demo
+        }, 5000);
     </script>
 </body>
 </html>
