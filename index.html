@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pull Request Template</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f6f8fa;
+            color: #24292f;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .pr-header {
+            background: white;
+            border: 1px solid #d1d9e0;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .pr-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #0969da;
+        }
+
+        .pr-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #656d76;
+        }
+
+        .pr-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 8px;
+            background: #dafbe1;
+            color: #1a7f37;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .pr-body {
+            background: white;
+            border: 1px solid #d1d9e0;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #24292f;
+        }
+
+        .section p, .section li {
+            color: #656d76;
+            margin-bottom: 5px;
+        }
+
+        .section ul {
+            padding-left: 20px;
+        }
+
+        .files-changed {
+            background: white;
+            border: 1px solid #d1d9e0;
+            border-radius: 6px;
+            padding: 20px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f6f8fa;
+        }
+
+        .file-item:last-child {
+            border-bottom: none;
+        }
+
+        .file-status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #1f883d;
+        }
+
+        .file-status.modified {
+            background: #fb8500;
+        }
+
+        .file-name {
+            font-family: 'SFMono-Regular', Consolas, monospace;
+            font-size: 14px;
+        }
+
+        .file-changes {
+            margin-left: auto;
+            font-size: 12px;
+            color: #656d76;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #1f883d;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .btn:hover {
+            background: #1a7f37;
+        }
+
+        .btn-secondary {
+            background: #f6f8fa;
+            color: #24292f;
+            border: 1px solid #d1d9e0;
+        }
+
+        .btn-secondary:hover {
+            background: #f3f4f6;
+        }
+
+        .actions {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="pr-header">
+            <h1 class="pr-title">Add user authentication system</h1>
+            <div class="pr-meta">
+                <span class="pr-status">🟢 Open</span>
+                <span>john-doe wants to merge 5 commits into main from feature/auth</span>
+                <span>•</span>
+                <span>2 hours ago</span>
+            </div>
+        </div>
+
+        <div class="pr-body">
+            <div class="section">
+                <h3>📝 Description</h3>
+                <p>This PR implements a complete user authentication system including login, registration, and password reset functionality. The implementation uses JWT tokens for session management and includes proper input validation and security measures.</p>
+            </div>
+
+            <div class="section">
+                <h3>✨ Changes Made</h3>
+                <ul>
+                    <li>Added user registration and login endpoints</li>
+                    <li>Implemented JWT token-based authentication</li>
+                    <li>Created password hashing and validation</li>
+                    <li>Added middleware for protected routes</li>
+                    <li>Implemented password reset functionality</li>
+                    <li>Added comprehensive input validation</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>🧪 Testing</h3>
+                <ul>
+                    <li>All existing tests pass</li>
+                    <li>Added unit tests for authentication functions</li>
+                    <li>Added integration tests for auth endpoints</li>
+                    <li>Tested password reset flow manually</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>📋 Checklist</h3>
+                <ul>
+                    <li>✅ Code follows project style guidelines</li>
+                    <li>✅ Self-review completed</li>
+                    <li>✅ Tests added/updated</li>
+                    <li>✅ Documentation updated</li>
+                    <li>✅ No breaking changes</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="files-changed">
+            <h3 style="margin-bottom: 15px;">📁 Files Changed (8)</h3>
+            <div class="file-item">
+                <div class="file-status"></div>
+                <span class="file-name">src/auth/auth.controller.js</span>
+                <span class="file-changes">+127 -0</span>
+            </div>
+            <div class="file-item">
+                <div class="file-status"></div>
+                <span class="file-name">src/auth/auth.service.js</span>
+                <span class="file-changes">+89 -0</span>
+            </div>
+            <div class="file-item">
+                <div class="file-status"></div>
+                <span class="file-name">src/middleware/auth.middleware.js</span>
+                <span class="file-changes">+45 -0</span>
+            </div>
+            <div class="file-item">
+                <div class="file-status modified"></div>
+                <span class="file-name">src/app.js</span>
+                <span class="file-changes">+12 -3</span>
+            </div>
+            <div class="file-item">
+                <div class="file-status"></div>
+                <span class="file-name">tests/auth.test.js</span>
+                <span class="file-changes">+156 -0</span>
+            </div>
+            <div class="file-item">
+                <div class="file-status modified"></div>
+                <span class="file-name">package.json</span>
+                <span class="file-changes">+3 -0</span>
+            </div>
+            <div class="file-item">
+                <div class="file-status"></div>
+                <span class="file-name">docs/authentication.md</span>
+                <span class="file-changes">+78 -0</span>
+            </div>
+            <div class="file-item">
+                <div class="file-status modified"></div>
+                <span class="file-name">README.md</span>
+                <span class="file-changes">+15 -2</span>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn" onclick="mergePR()">Merge pull request</button>
+            <button class="btn btn-secondary" onclick="closePR()">Close pull request</button>
+            <button class="btn btn-secondary" onclick="addReview()">Add review</button>
+        </div>
+    </div>
+
+    <script>
+        function mergePR() {
+            alert('Pull request merged successfully! 🎉');
+        }
+
+        function closePR() {
+            if (confirm('Are you sure you want to close this pull request?')) {
+                alert('Pull request closed.');
+            }
+        }
+
+        function addReview() {
+            const review = prompt('Add your review comments:');
+            if (review) {
+                alert('Review submitted: ' + review);
+            }
+        }
+
+        // Simulate real-time updates
+        setInterval(() => {
+            const statusElement = document.querySelector('.pr-status');
+            const statuses = ['🟢 Open', '🟡 Draft', '🔴 Closed', '🟣 Merged'];
+            // Keep it as Open for demo
+        }, 5000);
+    </script>
+</body>
+</html>
