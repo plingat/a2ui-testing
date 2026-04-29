@@ -16,277 +16,278 @@
             background-color: #f6f8fa;
             color: #24292f;
             line-height: 1.5;
-            padding: 20px;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 20px;
+        }
+
+        .pr-header {
             background: white;
-            border-radius: 8px;
+            border: 1px solid #d1d9e0;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            overflow: hidden;
         }
 
-        .header {
-            background: #0969da;
-            color: white;
-            padding: 20px;
-            display: flex;
+        .pr-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #0969da;
+        }
+
+        .pr-number {
+            color: #656d76;
+            font-size: 14px;
+        }
+
+        .pr-status {
+            display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            margin: 16px 0;
         }
 
-        .pr-icon {
-            width: 24px;
-            height: 24px;
-            fill: currentColor;
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
         }
 
-        .content {
-            padding: 20px;
+        .status-open {
+            background-color: #2da44e;
+            color: white;
         }
 
-        .form-group {
+        .pr-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            color: #656d76;
+            margin-top: 12px;
+        }
+
+        .pr-body {
+            background: white;
+            border: 1px solid #d1d9e0;
+            border-radius: 12px;
+            padding: 24px;
             margin-bottom: 20px;
         }
 
-        label {
-            display: block;
+        .section-title {
+            font-size: 16px;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             color: #24292f;
         }
 
-        input[type="text"], textarea, select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #d1d9e0;
-            border-radius: 6px;
-            font-size: 14px;
-            font-family: inherit;
-            background: #ffffff;
+        .checklist {
+            list-style: none;
+            margin: 12px 0;
         }
 
-        input[type="text"]:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: #0969da;
-            box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.1);
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .checkbox-item {
+        .checklist li {
+            margin: 8px 0;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        input[type="checkbox"] {
-            width: 16px;
-            height: 16px;
+        .checklist input[type="checkbox"] {
+            margin: 0;
         }
 
-        .buttons {
+        .code-block {
+            background: #f6f8fa;
+            border: 1px solid #d1d9e0;
+            border-radius: 6px;
+            padding: 16px;
+            font-family: 'SFMono-Regular', Consolas, monospace;
+            font-size: 14px;
+            margin: 12px 0;
+            overflow-x: auto;
+        }
+
+        .files-changed {
+            background: white;
+            border: 1px solid #d1d9e0;
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .file-item {
             display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #d1d9e0;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f6f8fa;
+        }
+
+        .file-item:last-child {
+            border-bottom: none;
+        }
+
+        .file-stats {
+            font-size: 12px;
+            color: #656d76;
+        }
+
+        .additions {
+            color: #2da44e;
+        }
+
+        .deletions {
+            color: #cf222e;
         }
 
         .btn {
+            background: #2da44e;
+            color: white;
+            border: none;
             padding: 8px 16px;
             border-radius: 6px;
+            cursor: pointer;
             font-size: 14px;
             font-weight: 500;
-            cursor: pointer;
-            border: 1px solid;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
         }
 
-        .btn-primary {
-            background: #1f883d;
-            color: white;
-            border-color: #1f883d;
-        }
-
-        .btn-primary:hover {
-            background: #1a7f37;
+        .btn:hover {
+            background: #2c974b;
         }
 
         .btn-secondary {
             background: #f6f8fa;
             color: #24292f;
-            border-color: #d1d9e0;
+            border: 1px solid #d1d9e0;
         }
 
         .btn-secondary:hover {
             background: #f3f4f6;
         }
 
-        .status {
-            margin-top: 20px;
-            padding: 12px;
-            border-radius: 6px;
-            display: none;
-        }
-
-        .status.success {
-            background: #d1e7dd;
-            color: #0f5132;
-            border: 1px solid #badbcc;
-        }
-
-        .branch-info {
+        .actions {
             display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            padding: 12px;
-            background: #f6f8fa;
-            border-radius: 6px;
-            font-family: 'SFMono-Regular', Consolas, monospace;
-            font-size: 13px;
-        }
-
-        .arrow {
-            color: #656d76;
+            gap: 12px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <svg class="pr-icon" viewBox="0 0 16 16">
-                <path d="M1.5 3.25a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25Zm5.677-.177L9.573.677A.25.25 0 0 1 10 .854V2.5h1A2.5 2.5 0 0 1 13.5 5v5.628a2.251 2.251 0 1 1-1.5 0V5a1 1 0 0 0-1-1h-1v1.646a.25.25 0 0 1-.427.177L7.177 3.427a.25.25 0 0 1 0-.354ZM3.75 2.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm0 9.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm8.25.75a.75.75 0 1 0 1.5 0 .75.75 0 0 0-1.5 0Z"/>
-            </svg>
-            <h1>Create Pull Request</h1>
+        <div class="pr-header">
+            <h1 class="pr-title">Add user authentication system</h1>
+            <span class="pr-number">#42</span>
+            
+            <div class="pr-status">
+                <span class="status-badge status-open">Open</span>
+                <span>wants to merge 5 commits into main from feature/auth</span>
+            </div>
+            
+            <div class="pr-meta">
+                <span>👤 john-doe opened this 2 hours ago</span>
+                <span>💬 3 comments</span>
+                <span>✅ 2/3 checks passing</span>
+            </div>
         </div>
-        
-        <div class="content">
-            <form id="prForm">
-                <div class="branch-info">
-                    <span>feature/new-feature</span>
-                    <span class="arrow">→</span>
-                    <span>main</span>
-                </div>
 
-                <div class="form-group">
-                    <label for="title">Title *</label>
-                    <input type="text" id="title" name="title" placeholder="Brief description of changes" required>
-                </div>
+        <div class="pr-body">
+            <h3 class="section-title">Description</h3>
+            <p>This PR implements a complete user authentication system with login, registration, and password reset functionality.</p>
+            
+            <h3 class="section-title" style="margin-top: 24px;">Changes Made</h3>
+            <ul class="checklist">
+                <li><input type="checkbox" checked> ✅ Added user registration endpoint</li>
+                <li><input type="checkbox" checked> ✅ Implemented JWT token authentication</li>
+                <li><input type="checkbox" checked> ✅ Created login/logout functionality</li>
+                <li><input type="checkbox" checked> ✅ Added password hashing with bcrypt</li>
+                <li><input type="checkbox"> ⏳ Added email verification (in progress)</li>
+                <li><input type="checkbox"> ⏳ Updated documentation</li>
+            </ul>
 
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea id="description" name="description" placeholder="## What does this PR do?
+            <h3 class="section-title" style="margin-top: 24px;">Testing</h3>
+            <div class="code-block">
+npm test
+npm run test:auth
+            </div>
+            
+            <h3 class="section-title" style="margin-top: 24px;">Breaking Changes</h3>
+            <p>⚠️ This PR introduces breaking changes to the user model. Migration required.</p>
+            
+            <h3 class="section-title" style="margin-top: 24px;">Related Issues</h3>
+            <p>Closes #38, Fixes #41</p>
+        </div>
 
-## How to test
+        <div class="files-changed">
+            <h3 class="section-title">Files Changed (8)</h3>
+            
+            <div class="file-item">
+                <span>📄 src/auth/auth.controller.js</span>
+                <span class="file-stats"><span class="additions">+127</span> <span class="deletions">-0</span></span>
+            </div>
+            
+            <div class="file-item">
+                <span>📄 src/auth/auth.service.js</span>
+                <span class="file-stats"><span class="additions">+89</span> <span class="deletions">-0</span></span>
+            </div>
+            
+            <div class="file-item">
+                <span>📄 src/models/user.model.js</span>
+                <span class="file-stats"><span class="additions">+45</span> <span class="deletions">-12</span></span>
+            </div>
+            
+            <div class="file-item">
+                <span>📄 src/middleware/auth.middleware.js</span>
+                <span class="file-stats"><span class="additions">+34</span> <span class="deletions">-0</span></span>
+            </div>
+            
+            <div class="file-item">
+                <span>📄 tests/auth.test.js</span>
+                <span class="file-stats"><span class="additions">+156</span> <span class="deletions">-0</span></span>
+            </div>
+            
+            <div class="file-item">
+                <span>📄 package.json</span>
+                <span class="file-stats"><span class="additions">+3</span> <span class="deletions">-0</span></span>
+            </div>
+            
+            <div class="file-item">
+                <span>📄 README.md</span>
+                <span class="file-stats"><span class="additions">+28</span> <span class="deletions">-5</span></span>
+            </div>
+            
+            <div class="file-item">
+                <span>📄 .env.example</span>
+                <span class="file-stats"><span class="additions">+4</span> <span class="deletions">-0</span></span>
+            </div>
+        </div>
 
-## Screenshots (if applicable)
-
-## Additional notes"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="type">Type of Change</label>
-                    <select id="type" name="type">
-                        <option value="feature">✨ New Feature</option>
-                        <option value="bugfix">🐛 Bug Fix</option>
-                        <option value="docs">📚 Documentation</option>
-                        <option value="style">💄 Style/UI</option>
-                        <option value="refactor">♻️ Refactor</option>
-                        <option value="test">🧪 Tests</option>
-                        <option value="chore">🔧 Chore</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Checklist</label>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="tested" name="checklist">
-                            <label for="tested">I have tested these changes</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="docs" name="checklist">
-                            <label for="docs">Documentation has been updated</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="breaking" name="checklist">
-                            <label for="breaking">This includes breaking changes</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="review" name="checklist">
-                            <label for="review">Ready for review</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="buttons">
-                    <button type="button" class="btn btn-secondary" onclick="saveDraft()">Save Draft</button>
-                    <button type="submit" class="btn btn-primary">Create Pull Request</button>
-                </div>
-            </form>
-
-            <div id="status" class="status"></div>
+        <div class="actions">
+            <button class="btn">Merge pull request</button>
+            <button class="btn btn-secondary">Close pull request</button>
+            <button class="btn btn-secondary">Add to project</button>
         </div>
     </div>
 
     <script>
-        document.getElementById('prForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(e.target);
-            const title = formData.get('title');
-            const description = formData.get('description');
-            const type = formData.get('type');
-            
-            // Simulate PR creation
-            const statusDiv = document.getElementById('status');
-            statusDiv.className = 'status success';
-            statusDiv.style.display = 'block';
-            statusDiv.innerHTML = `
-                <strong>✅ Pull Request Created Successfully!</strong><br>
-                <strong>Title:</strong> ${title}<br>
-                <strong>Type:</strong> ${type}<br>
-                <strong>PR #:</strong> ${Math.floor(Math.random() * 1000) + 1}
-            `;
-            
-            // Reset form
-            setTimeout(() => {
-                e.target.reset();
-                statusDiv.style.display = 'none';
-            }, 3000);
+        // Simple interactivity for checkboxes
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                console.log('Checkbox toggled:', this.checked);
+            });
         });
 
-        function saveDraft() {
-            const statusDiv = document.getElementById('status');
-            statusDiv.className = 'status success';
-            statusDiv.style.display = 'block';
-            statusDiv.innerHTML = '<strong>💾 Draft saved successfully!</strong>';
-            
-            setTimeout(() => {
-                statusDiv.style.display = 'none';
-            }, 2000);
-        }
-
-        // Auto-resize textarea
-        document.getElementById('description').addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = this.scrollHeight + 'px';
+        // Button click handlers
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function() {
+                alert(`${this.textContent} clicked!`);
+            });
         });
     </script>
 </body>
