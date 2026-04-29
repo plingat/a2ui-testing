@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pull Request Template</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f6f8fa;
+            color: #24292f;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .pr-header {
+            background: white;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .pr-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #0969da;
+        }
+
+        .pr-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #656d76;
+        }
+
+        .pr-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 8px;
+            background: #dafbe1;
+            color: #0969da;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .pr-branches {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .branch {
+            background: #f6f8fa;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'SFMono-Regular', Consolas, monospace;
+            font-size: 12px;
+        }
+
+        .arrow {
+            color: #656d76;
+        }
+
+        .pr-description {
+            background: white;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #24292f;
+        }
+
+        .checklist {
+            list-style: none;
+            margin-bottom: 15px;
+        }
+
+        .checklist li {
+            margin-bottom: 5px;
+        }
+
+        .checklist input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        .pr-files {
+            background: white;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f6f8fa;
+        }
+
+        .file-item:last-child {
+            border-bottom: none;
+        }
+
+        .file-status {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #28a745;
+        }
+
+        .file-status.modified {
+            background: #ffd33d;
+        }
+
+        .file-status.deleted {
+            background: #d73a49;
+        }
+
+        .file-name {
+            font-family: 'SFMono-Regular', Consolas, monospace;
+            font-size: 14px;
+        }
+
+        .file-changes {
+            margin-left: auto;
+            font-size: 12px;
+            color: #656d76;
+        }
+
+        .pr-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #2da44e;
+            color: white;
+            border-color: #2da44e;
+        }
+
+        .btn-secondary {
+            background: #f6f8fa;
+            color: #24292f;
+            border-color: #d0d7de;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .stat {
+            font-size: 14px;
+            color: #656d76;
+        }
+
+        .stat-number {
+            font-weight: 600;
+            color: #24292f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="pr-header">
+            <h1 class="pr-title">Add user authentication system</h1>
+            <div class="pr-meta">
+                <span class="pr-status">🟢 Open</span>
+                <span>opened 2 hours ago by <strong>developer123</strong></span>
+                <span>wants to merge 8 commits into <strong>main</strong></span>
+            </div>
+            <div class="pr-branches">
+                <span class="branch">feature/auth-system</span>
+                <span class="arrow">→</span>
+                <span class="branch">main</span>
+            </div>
+            <div class="stats">
+                <span class="stat"><span class="stat-number">+247</span> additions</span>
+                <span class="stat"><span class="stat-number">-15</span> deletions</span>
+                <span class="stat"><span class="stat-number">12</span> files changed</span>
+            </div>
+        </div>
+
+        <div class="pr-description">
+            <h3 class="section-title">Description</h3>
+            <p>This PR implements a comprehensive user authentication system with the following features:</p>
+            <ul style="margin: 10px 0 15px 20px;">
+                <li>User registration and login</li>
+                <li>Password hashing with bcrypt</li>
+                <li>JWT token-based authentication</li>
+                <li>Protected routes middleware</li>
+                <li>Password reset functionality</li>
+            </ul>
+
+            <h3 class="section-title">Changes Made</h3>
+            <ul class="checklist">
+                <li><input type="checkbox" checked> Added user model and database schema</li>
+                <li><input type="checkbox" checked> Implemented registration endpoint</li>
+                <li><input type="checkbox" checked> Implemented login endpoint</li>
+                <li><input type="checkbox" checked> Added JWT middleware for protected routes</li>
+                <li><input type="checkbox" checked> Added password reset functionality</li>
+                <li><input type="checkbox" checked> Added input validation and sanitization</li>
+                <li><input type="checkbox" checked> Added comprehensive error handling</li>
+                <li><input type="checkbox" checked> Added unit tests for auth functions</li>
+            </ul>
+
+            <h3 class="section-title">Testing</h3>
+            <ul class="checklist">
+                <li><input type="checkbox" checked> All existing tests pass</li>
+                <li><input type="checkbox" checked> New tests added for authentication features</li>
+                <li><input type="checkbox" checked> Manual testing completed</li>
+                <li><input type="checkbox" checked> Security review completed</li>
+            </ul>
+
+            <h3 class="section-title">Breaking Changes</h3>
+            <p>⚠️ This PR introduces breaking changes to the API:</p>
+            <ul style="margin: 10px 0 15px 20px;">
+                <li>All protected endpoints now require authentication headers</li>
+                <li>User session management has been updated</li>
+            </ul>
+        </div>
+
+        <div class="pr-files">
+            <h3 class="section-title">Files Changed</h3>
+            <div class="file-item">
+                <div class="file-status"></div>
+                <span class="file-name">src/models/User.js</span>
+                <span class="file-changes">+89 -0</span>
+            </div>
+            <div class="file-item">
+                <div class="file-status"></div>
+                <span class="file-name">src/routes/auth.js</span>
+                <span class="file-changes">+156 -0</span>
+            </div>
+            <div class="file-item">
+                <div class="file-status modified"></div>
+                <span class="file-name">src/middleware/auth.js</span>
+                <span class="file-changes">+45 -8</span>
+            </div>
+            <div class="file-item">
+                <div class="file-status"></div>
+                <span class="file-name">src/utils/validation.js</span>
+                <span class="file-changes">+67 -0</span>
+            </div>
+            <div class="file-item">
+                <div class="file-status modified"></div>
+                <span class="file-name">package.json</span>
+                <span class="file-changes">+3 -1</span>
+            </div>
+            <div class="file-item">
+                <div class="file-status"></div>
+                <span class="file-name">tests/auth.test.js</span>
+                <span class="file-changes">+124 -0</span>
+            </div>
+            <div class="file-item">
+                <div class="file-status modified"></div>
+                <span class="file-name">README.md</span>
+                <span class="file-changes">+23 -6</span>
+            </div>
+        </div>
+
+        <div class="pr-actions">
+            <button class="btn btn-secondary">Close pull request</button>
+            <button class="btn btn-primary">Merge pull request</button>
+        </div>
+    </div>
+
+    <script>
+        // Add interactivity to checkboxes
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    this.parentElement.style.textDecoration = 'line-through';
+                    this.parentElement.style.opacity = '0.7';
+                } else {
+                    this.parentElement.style.textDecoration = 'none';
+                    this.parentElement.style.opacity = '1';
+                }
+            });
+        });
+
+        // Add click handlers for buttons
+        document.querySelector('.btn-primary').addEventListener('click', function() {
+            alert('Pull request merged successfully!');
+        });
+
+        document.querySelector('.btn-secondary').addEventListener('click', function() {
+            alert('Pull request closed.');
+        });
+    </script>
+</body>
+</html>
