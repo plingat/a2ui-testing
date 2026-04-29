@@ -75,33 +75,17 @@
         .section h3 {
             font-size: 16px;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: #24292f;
         }
 
-        .checklist {
-            list-style: none;
-        }
-
-        .checklist li {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .section p, .section li {
+            color: #656d76;
             margin-bottom: 5px;
         }
 
-        .checklist input[type="checkbox"] {
-            margin: 0;
-        }
-
-        .code-block {
-            background: #f6f8fa;
-            border: 1px solid #d1d9e0;
-            border-radius: 6px;
-            padding: 12px;
-            font-family: 'SFMono-Regular', Consolas, monospace;
-            font-size: 12px;
-            overflow-x: auto;
+        .section ul {
+            padding-left: 20px;
         }
 
         .files-changed {
@@ -124,8 +108,8 @@
         }
 
         .file-status {
-            width: 12px;
-            height: 12px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             background: #1f883d;
         }
@@ -134,12 +118,16 @@
             background: #fb8500;
         }
 
+        .file-status.deleted {
+            background: #da3633;
+        }
+
         .file-name {
             font-family: 'SFMono-Regular', Consolas, monospace;
             font-size: 14px;
         }
 
-        .stats {
+        .file-changes {
             margin-left: auto;
             font-size: 12px;
             color: #656d76;
@@ -172,6 +160,10 @@
         .btn-secondary:hover {
             background: #f3f4f6;
         }
+
+        .actions {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -189,91 +181,125 @@
         <div class="pr-body">
             <div class="section">
                 <h3>📋 Description</h3>
-                <p>This PR implements a complete user authentication system including login, registration, and password reset functionality. The implementation uses JWT tokens for session management and includes proper input validation and security measures.</p>
+                <p>This PR implements a complete user authentication system with login, registration, and password reset functionality. The implementation includes secure password hashing, JWT token management, and proper session handling.</p>
             </div>
 
             <div class="section">
-                <h3>🎯 Changes Made</h3>
+                <h3>✨ Changes Made</h3>
                 <ul>
-                    <li>Added user registration endpoint with email validation</li>
-                    <li>Implemented JWT-based authentication middleware</li>
-                    <li>Created login/logout functionality</li>
-                    <li>Added password reset via email</li>
-                    <li>Implemented rate limiting for auth endpoints</li>
+                    <li>Added user registration and login endpoints</li>
+                    <li>Implemented JWT-based authentication</li>
+                    <li>Created password hashing utilities using bcrypt</li>
+                    <li>Added middleware for protected routes</li>
+                    <li>Implemented password reset functionality</li>
                     <li>Added comprehensive unit tests</li>
                 </ul>
             </div>
 
             <div class="section">
                 <h3>🧪 Testing</h3>
-                <div class="code-block">
-npm test
-npm run test:integration
-npm run test:e2e
-                </div>
-            </div>
-
-            <div class="section">
-                <h3>✅ Checklist</h3>
-                <ul class="checklist">
-                    <li><input type="checkbox" checked> Code follows project style guidelines</li>
-                    <li><input type="checkbox" checked> Self-review completed</li>
-                    <li><input type="checkbox" checked> Tests added/updated</li>
-                    <li><input type="checkbox" checked> Documentation updated</li>
-                    <li><input type="checkbox"> Security review completed</li>
-                    <li><input type="checkbox" checked> Breaking changes documented</li>
+                <ul>
+                    <li>All existing tests pass</li>
+                    <li>Added 15 new unit tests for auth functionality</li>
+                    <li>Manual testing completed for all user flows</li>
+                    <li>Security testing performed for common vulnerabilities</li>
                 </ul>
             </div>
 
             <div class="section">
-                <h3>🔗 Related Issues</h3>
-                <p>Closes #123, Fixes #456</p>
-            </div>
-
-            <div class="section">
-                <h3>📸 Screenshots</h3>
-                <p><em>Login page and registration flow screenshots would be attached here</em></p>
+                <h3>📝 Notes</h3>
+                <p>This implementation follows security best practices including proper password hashing, secure token generation, and protection against common attacks like CSRF and session fixation.</p>
             </div>
         </div>
 
         <div class="files-changed">
-            <h3>📁 Files Changed (12)</h3>
+            <h3 style="margin-bottom: 15px;">📁 Files Changed (8)</h3>
+            
             <div class="file-item">
                 <div class="file-status"></div>
                 <span class="file-name">src/auth/auth.controller.js</span>
-                <span class="stats">+156 -0</span>
+                <span class="file-changes">+156 -0</span>
             </div>
+            
             <div class="file-item">
                 <div class="file-status"></div>
                 <span class="file-name">src/auth/auth.service.js</span>
-                <span class="stats">+89 -0</span>
+                <span class="file-changes">+89 -0</span>
             </div>
+            
+            <div class="file-item">
+                <div class="file-status"></div>
+                <span class="file-name">src/middleware/auth.middleware.js</span>
+                <span class="file-changes">+45 -0</span>
+            </div>
+            
+            <div class="file-item">
+                <div class="file-status"></div>
+                <span class="file-name">src/utils/password.js</span>
+                <span class="file-changes">+32 -0</span>
+            </div>
+            
             <div class="file-item">
                 <div class="file-status modified"></div>
-                <span class="file-name">src/middleware/auth.middleware.js</span>
-                <span class="stats">+45 -12</span>
+                <span class="file-name">src/app.js</span>
+                <span class="file-changes">+12 -3</span>
             </div>
-            <div class="file-item">
-                <div class="file-status"></div>
-                <span class="file-name">src/models/user.model.js</span>
-                <span class="stats">+67 -0</span>
-            </div>
-            <div class="file-item">
-                <div class="file-status"></div>
-                <span class="file-name">tests/auth.test.js</span>
-                <span class="stats">+234 -0</span>
-            </div>
+            
             <div class="file-item">
                 <div class="file-status modified"></div>
                 <span class="file-name">package.json</span>
-                <span class="stats">+3 -1</span>
+                <span class="file-changes">+3 -0</span>
+            </div>
+            
+            <div class="file-item">
+                <div class="file-status"></div>
+                <span class="file-name">tests/auth.test.js</span>
+                <span class="file-changes">+234 -0</span>
+            </div>
+            
+            <div class="file-item">
+                <div class="file-status"></div>
+                <span class="file-name">README.md</span>
+                <span class="file-changes">+28 -5</span>
             </div>
         </div>
 
-        <div style="margin-top: 20px;">
-            <button class="btn">Merge pull request</button>
-            <button class="btn btn-secondary">Close pull request</button>
+        <div class="actions">
+            <button class="btn" onclick="mergePR()">Merge Pull Request</button>
+            <button class="btn btn-secondary" onclick="closePR()">Close</button>
+            <button class="btn btn-secondary" onclick="reviewPR()">Add Review</button>
         </div>
     </div>
+
+    <script>
+        function mergePR() {
+            alert('Pull request merged successfully! 🎉');
+        }
+
+        function closePR() {
+            if (confirm('Are you sure you want to close this pull request?')) {
+                alert('Pull request closed.');
+            }
+        }
+
+        function reviewPR() {
+            alert('Review functionality would open here.');
+        }
+
+        // Simulate real-time updates
+        setTimeout(() => {
+            const status = document.querySelector('.pr-status');
+            status.innerHTML = '🔄 Checks running';
+            status.style.background = '#fff8c5';
+            status.style.color = '#9a6700';
+        }, 3000);
+
+        setTimeout(() => {
+            const status = document.querySelector('.pr-status');
+            status.innerHTML = '✅ All checks passed';
+            status.style.background = '#dafbe1';
+            status.style.color = '#1a7f37';
+        }, 6000);
+    </script>
 </body>
 </html>
