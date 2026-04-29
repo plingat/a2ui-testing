@@ -25,7 +25,7 @@
             position: relative;
             width: 800px;
             height: 200px;
-            background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 70%, #8B4513 70%, #8B4513 100%);
+            background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 70%, #8B7355 70%, #8B7355 100%);
             border: 2px solid #333;
             overflow: hidden;
         }
@@ -36,9 +36,9 @@
             left: 50px;
             width: 40px;
             height: 40px;
-            background: #228B22;
+            background: #4a4a4a;
             border-radius: 5px;
-            transition: bottom 0.3s ease;
+            transition: bottom 0.1s;
         }
 
         #dino::before {
@@ -48,7 +48,7 @@
             left: 5px;
             width: 30px;
             height: 20px;
-            background: #228B22;
+            background: #4a4a4a;
             border-radius: 10px;
         }
 
@@ -57,74 +57,79 @@
             position: absolute;
             bottom: -10px;
             left: -5px;
-            width: 50px;
+            width: 15px;
             height: 15px;
-            background: #228B22;
-            border-radius: 0 0 10px 10px;
+            background: #4a4a4a;
+            border-radius: 0 0 5px 5px;
         }
 
-        .obstacle {
+        .cactus {
             position: absolute;
             bottom: 50px;
             width: 20px;
             height: 40px;
-            background: #8B4513;
+            background: #228B22;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .cactus::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: -8px;
+            width: 15px;
+            height: 20px;
+            background: #228B22;
+            border-radius: 5px;
+        }
+
+        .cactus::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            right: -8px;
+            width: 12px;
+            height: 15px;
+            background: #228B22;
             border-radius: 5px;
         }
 
         .cloud {
             position: absolute;
+            top: 30px;
+            width: 60px;
+            height: 20px;
             background: white;
-            border-radius: 50px;
+            border-radius: 20px;
             opacity: 0.8;
         }
 
-        .cloud::before,
+        .cloud::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            width: 25px;
+            height: 25px;
+            background: white;
+            border-radius: 50%;
+        }
+
         .cloud::after {
             content: '';
             position: absolute;
-            background: white;
-            border-radius: 50px;
-        }
-
-        .cloud1 {
-            width: 50px;
-            height: 20px;
-            top: 30px;
-        }
-
-        .cloud1::before {
-            width: 25px;
-            height: 25px;
-            top: -10px;
-            left: 5px;
-        }
-
-        .cloud1::after {
-            width: 30px;
-            height: 20px;
             top: -5px;
-            right: 5px;
-        }
-
-        #ground {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 50px;
-            background: repeating-linear-gradient(
-                90deg,
-                #8B4513 0px,
-                #8B4513 2px,
-                #A0522D 2px,
-                #A0522D 4px
-            );
+            right: 15px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
         }
 
         #score {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 10px;
+            right: 10px;
             font-size: 18px;
             font-weight: bold;
             color: #333;
@@ -143,14 +148,14 @@
         }
 
         #gameOver h2 {
-            color: #ff4444;
+            color: #333;
             margin-bottom: 10px;
         }
 
         #gameOver button {
             padding: 10px 20px;
             font-size: 16px;
-            background: #228B22;
+            background: #4CAF50;
             color: white;
             border: none;
             border-radius: 5px;
@@ -158,40 +163,48 @@
         }
 
         #gameOver button:hover {
-            background: #32CD32;
+            background: #45a049;
         }
 
         #instructions {
             position: absolute;
-            top: 20px;
-            left: 20px;
-            font-size: 14px;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
             color: #666;
+            font-size: 14px;
         }
 
         .jumping {
-            bottom: 120px !important;
+            animation: jump 0.5s ease-in-out;
+        }
+
+        @keyframes jump {
+            0%, 100% { bottom: 50px; }
+            50% { bottom: 120px; }
         }
     </style>
 </head>
 <body>
     <div id="gameContainer">
-        <div id="ground"></div>
         <div id="dino"></div>
         <div id="score">Score: 0</div>
-        <div id="instructions">Press SPACE or click to jump</div>
         <div id="gameOver">
             <h2>Game Over!</h2>
             <p>Final Score: <span id="finalScore">0</span></p>
             <button onclick="restartGame()">Play Again</button>
+        </div>
+        <div id="instructions">
+            Press SPACEBAR or click to jump
         </div>
     </div>
 
     <script>
         class DinoGame {
             constructor() {
-                this.dino = document.getElementById('dino');
                 this.gameContainer = document.getElementById('gameContainer');
+                this.dino = document.getElementById('dino');
                 this.scoreElement = document.getElementById('score');
                 this.gameOverElement = document.getElementById('gameOver');
                 this.finalScoreElement = document.getElementById('finalScore');
@@ -206,26 +219,25 @@
                 
                 this.init();
             }
-
+            
             init() {
-                this.setupEventListeners();
+                this.bindEvents();
                 this.startGame();
-                this.createClouds();
             }
-
-            setupEventListeners() {
+            
+            bindEvents() {
                 document.addEventListener('keydown', (e) => {
                     if (e.code === 'Space') {
                         e.preventDefault();
                         this.jump();
                     }
                 });
-
+                
                 this.gameContainer.addEventListener('click', () => {
                     this.jump();
                 });
             }
-
+            
             jump() {
                 if (!this.isJumping && this.isGameRunning) {
                     this.isJumping = true;
@@ -234,130 +246,156 @@
                     setTimeout(() => {
                         this.dino.classList.remove('jumping');
                         this.isJumping = false;
-                    }, 600);
+                    }, 500);
                 }
             }
-
-            createObstacle() {
-                const obstacle = document.createElement('div');
-                obstacle.className = 'obstacle';
-                obstacle.style.right = '-20px';
-                this.gameContainer.appendChild(obstacle);
-                this.obstacles.push(obstacle);
-            }
-
-            createClouds() {
-                for (let i = 0; i < 3; i++) {
-                    const cloud = document.createElement('div');
-                    cloud.className = 'cloud cloud1';
-                    cloud.style.right = Math.random() * 800 + 'px';
-                    cloud.style.top = Math.random() * 60 + 20 + 'px';
-                    this.gameContainer.appendChild(cloud);
-                    this.clouds.push(cloud);
-                }
-            }
-
-            moveObstacles() {
-                this.obstacles.forEach((obstacle, index) => {
-                    const currentRight = parseInt(obstacle.style.right);
-                    obstacle.style.right = currentRight + this.gameSpeed + 'px';
-                    
-                    if (currentRight > 820) {
-                        obstacle.remove();
-                        this.obstacles.splice(index, 1);
-                        this.score += 10;
-                        this.scoreElement.textContent = `Score: ${this.score}`;
-                        
-                        // Increase game speed gradually
-                        if (this.score % 100 === 0) {
-                            this.gameSpeed += 0.5;
-                        }
-                    }
-                });
-            }
-
-            moveClouds() {
-                this.clouds.forEach((cloud, index) => {
-                    const currentRight = parseInt(cloud.style.right);
-                    cloud.style.right = currentRight + 0.5 + 'px';
-                    
-                    if (currentRight > 850) {
-                        cloud.style.right = '-50px';
-                        cloud.style.top = Math.random() * 60 + 20 + 'px';
-                    }
-                });
-            }
-
-            checkCollision() {
-                const dinoRect = this.dino.getBoundingClientRect();
-                
-                this.obstacles.forEach(obstacle => {
-                    const obstacleRect = obstacle.getBoundingClientRect();
-                    
-                    if (dinoRect.left < obstacleRect.right &&
-                        dinoRect.right > obstacleRect.left &&
-                        dinoRect.top < obstacleRect.bottom &&
-                        dinoRect.bottom > obstacleRect.top) {
-                        this.gameOver();
-                    }
-                });
-            }
-
-            gameOver() {
-                this.isGameRunning = false;
-                clearInterval(this.gameLoop);
-                this.finalScoreElement.textContent = this.score;
-                this.gameOverElement.style.display = 'block';
-            }
-
+            
             startGame() {
                 this.isGameRunning = true;
                 this.score = 0;
                 this.gameSpeed = 2;
-                this.scoreElement.textContent = 'Score: 0';
+                this.obstacles = [];
+                this.clouds = [];
+                this.updateScore();
                 this.gameOverElement.style.display = 'none';
                 
-                // Clear existing obstacles
-                this.obstacles.forEach(obstacle => obstacle.remove());
-                this.obstacles = [];
+                // Clear existing obstacles and clouds
+                document.querySelectorAll('.cactus, .cloud').forEach(el => el.remove());
                 
-                // Create obstacles periodically
-                const obstacleInterval = setInterval(() => {
-                    if (this.isGameRunning) {
-                        if (Math.random() < 0.7) {
-                            this.createObstacle();
-                        }
-                    } else {
-                        clearInterval(obstacleInterval);
-                    }
+                this.gameLoop = setInterval(() => {
+                    this.update();
+                }, 20);
+                
+                // Spawn obstacles
+                this.obstacleSpawner = setInterval(() => {
+                    this.spawnObstacle();
                 }, 2000);
                 
-                // Main game loop
-                this.gameLoop = setInterval(() => {
-                    if (this.isGameRunning) {
-                        this.moveObstacles();
-                        this.moveClouds();
-                        this.checkCollision();
+                // Spawn clouds
+                this.cloudSpawner = setInterval(() => {
+                    this.spawnCloud();
+                }, 3000);
+            }
+            
+            spawnObstacle() {
+                if (!this.isGameRunning) return;
+                
+                const cactus = document.createElement('div');
+                cactus.className = 'cactus';
+                cactus.style.right = '-20px';
+                this.gameContainer.appendChild(cactus);
+                
+                this.obstacles.push({
+                    element: cactus,
+                    x: 820
+                });
+            }
+            
+            spawnCloud() {
+                if (!this.isGameRunning) return;
+                
+                const cloud = document.createElement('div');
+                cloud.className = 'cloud';
+                cloud.style.right = '-60px';
+                cloud.style.top = Math.random() * 50 + 20 + 'px';
+                this.gameContainer.appendChild(cloud);
+                
+                this.clouds.push({
+                    element: cloud,
+                    x: 860
+                });
+            }
+            
+            update() {
+                if (!this.isGameRunning) return;
+                
+                // Update score
+                this.score += 1;
+                if (this.score % 100 === 0) {
+                    this.gameSpeed += 0.5;
+                }
+                this.updateScore();
+                
+                // Update obstacles
+                this.obstacles.forEach((obstacle, index) => {
+                    obstacle.x -= this.gameSpeed;
+                    obstacle.element.style.right = (800 - obstacle.x) + 'px';
+                    
+                    // Check collision
+                    if (this.checkCollision(obstacle)) {
+                        this.gameOver();
+                        return;
                     }
-                }, 20);
+                    
+                    // Remove obstacle if off screen
+                    if (obstacle.x < -20) {
+                        obstacle.element.remove();
+                        this.obstacles.splice(index, 1);
+                    }
+                });
+                
+                // Update clouds
+                this.clouds.forEach((cloud, index) => {
+                    cloud.x -= this.gameSpeed * 0.5;
+                    cloud.element.style.right = (800 - cloud.x) + 'px';
+                    
+                    // Remove cloud if off screen
+                    if (cloud.x < -60) {
+                        cloud.element.remove();
+                        this.clouds.splice(index, 1);
+                    }
+                });
+            }
+            
+            checkCollision(obstacle) {
+                const dinoRect = {
+                    left: 50,
+                    right: 90,
+                    top: this.isJumping ? 80 : 160,
+                    bottom: 200
+                };
+                
+                const obstacleRect = {
+                    left: obstacle.x,
+                    right: obstacle.x + 20,
+                    top: 160,
+                    bottom: 200
+                };
+                
+                return dinoRect.left < obstacleRect.right &&
+                       dinoRect.right > obstacleRect.left &&
+                       dinoRect.top < obstacleRect.bottom &&
+                       dinoRect.bottom > obstacleRect.top;
+            }
+            
+            updateScore() {
+                this.scoreElement.textContent = `Score: ${this.score}`;
+            }
+            
+            gameOver() {
+                this.isGameRunning = false;
+                clearInterval(this.gameLoop);
+                clearInterval(this.obstacleSpawner);
+                clearInterval(this.cloudSpawner);
+                
+                this.finalScoreElement.textContent = this.score;
+                this.gameOverElement.style.display = 'block';
+            }
+            
+            restart() {
+                this.startGame();
             }
         }
-
-        // Initialize game
+        
         let game;
         
-        function startNewGame() {
+        window.onload = () => {
             game = new DinoGame();
-        }
+        };
         
         function restartGame() {
-            if (game) {
-                game.startGame();
-            }
+            game.restart();
         }
-        
-        // Start the game when page loads
-        window.addEventListener('load', startNewGame);
     </script>
 </body>
 </html>
