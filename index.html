@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pull Request Template</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f6f8fa;
+            color: #24292f;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .pr-header {
+            background: white;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .pr-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #24292f;
+        }
+
+        .pr-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #656d76;
+        }
+
+        .pr-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 8px;
+            background: #dafbe1;
+            color: #1a7f37;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .pr-branches {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .branch {
+            background: #f6f8fa;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'SFMono-Regular', Consolas, monospace;
+            font-size: 12px;
+        }
+
+        .arrow {
+            color: #656d76;
+        }
+
+        .pr-body {
+            background: white;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #24292f;
+        }
+
+        .section p, .section li {
+            color: #656d76;
+            margin-bottom: 5px;
+        }
+
+        .section ul {
+            padding-left: 20px;
+        }
+
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .checklist li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+        }
+
+        .checklist input[type="checkbox"] {
+            margin: 0;
+        }
+
+        .code-block {
+            background: #f6f8fa;
+            border: 1px solid #d0d7de;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: 'SFMono-Regular', Consolas, monospace;
+            font-size: 12px;
+            overflow-x: auto;
+        }
+
+        .pr-actions {
+            background: white;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            padding: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #2da44e;
+            color: white;
+            border-color: #2da44e;
+        }
+
+        .btn-secondary {
+            background: #f6f8fa;
+            color: #24292f;
+            border-color: #d0d7de;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .files-changed {
+            background: white;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .files-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #d0d7de;
+            font-weight: 600;
+        }
+
+        .file-item {
+            padding: 10px 20px;
+            border-bottom: 1px solid #f6f8fa;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-item:last-child {
+            border-bottom: none;
+        }
+
+        .file-stats {
+            font-size: 12px;
+            color: #656d76;
+        }
+
+        .additions {
+            color: #1a7f37;
+        }
+
+        .deletions {
+            color: #cf222e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="pr-header">
+            <div class="pr-title">Add user authentication system</div>
+            <div class="pr-meta">
+                <span class="pr-status">
+                    ✓ Open
+                </span>
+                <span>johndoe wants to merge 5 commits into main from feature/auth</span>
+            </div>
+            <div class="pr-branches">
+                <span class="branch">feature/auth</span>
+                <span class="arrow">→</span>
+                <span class="branch">main</span>
+            </div>
+        </div>
+
+        <div class="pr-body">
+            <div class="section">
+                <h3>Description</h3>
+                <p>This PR implements a comprehensive user authentication system including login, registration, and password reset functionality. The implementation uses JWT tokens for session management and includes proper security measures.</p>
+            </div>
+
+            <div class="section">
+                <h3>Changes Made</h3>
+                <ul>
+                    <li>Added user registration endpoint with email validation</li>
+                    <li>Implemented JWT-based authentication middleware</li>
+                    <li>Created login/logout functionality</li>
+                    <li>Added password reset via email</li>
+                    <li>Implemented user profile management</li>
+                    <li>Added comprehensive unit tests</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>Testing</h3>
+                <p>All new functionality has been tested with:</p>
+                <ul>
+                    <li>Unit tests for authentication middleware</li>
+                    <li>Integration tests for auth endpoints</li>
+                    <li>Manual testing of user flows</li>
+                    <li>Security testing for common vulnerabilities</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>Checklist</h3>
+                <ul class="checklist">
+                    <li><input type="checkbox" checked> Code follows project style guidelines</li>
+                    <li><input type="checkbox" checked> Self-review of code completed</li>
+                    <li><input type="checkbox" checked> Tests added for new functionality</li>
+                    <li><input type="checkbox" checked> Documentation updated</li>
+                    <li><input type="checkbox" checked> No breaking changes introduced</li>
+                    <li><input type="checkbox"> Security review completed</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>Breaking Changes</h3>
+                <p>None. This is a new feature addition that doesn't modify existing APIs.</p>
+            </div>
+        </div>
+
+        <div class="files-changed">
+            <div class="files-header">
+                Files Changed (8)
+            </div>
+            <div class="file-item">
+                <span>src/auth/middleware.js</span>
+                <span class="file-stats">
+                    <span class="additions">+127</span>
+                    <span class="deletions">-0</span>
+                </span>
+            </div>
+            <div class="file-item">
+                <span>src/auth/routes.js</span>
+                <span class="file-stats">
+                    <span class="additions">+89</span>
+                    <span class="deletions">-0</span>
+                </span>
+            </div>
+            <div class="file-item">
+                <span>src/models/User.js</span>
+                <span class="file-stats">
+                    <span class="additions">+65</span>
+                    <span class="deletions">-0</span>
+                </span>
+            </div>
+            <div class="file-item">
+                <span>src/utils/jwt.js</span>
+                <span class="file-stats">
+                    <span class="additions">+34</span>
+                    <span class="deletions">-0</span>
+                </span>
+            </div>
+            <div class="file-item">
+                <span>tests/auth.test.js</span>
+                <span class="file-stats">
+                    <span class="additions">+156</span>
+                    <span class="deletions">-0</span>
+                </span>
+            </div>
+            <div class="file-item">
+                <span>package.json</span>
+                <span class="file-stats">
+                    <span class="additions">+3</span>
+                    <span class="deletions">-0</span>
+                </span>
+            </div>
+            <div class="file-item">
+                <span>README.md</span>
+                <span class="file-stats">
+                    <span class="additions">+23</span>
+                    <span class="deletions">-1</span>
+                </span>
+            </div>
+            <div class="file-item">
+                <span>docs/authentication.md</span>
+                <span class="file-stats">
+                    <span class="additions">+78</span>
+                    <span class="deletions">-0</span>
+                </span>
+            </div>
+        </div>
+
+        <div class="pr-actions">
+            <button class="btn btn-secondary">Close pull request</button>
+            <button class="btn btn-primary">Merge pull request</button>
+        </div>
+    </div>
+
+    <script>
+        // Simple interactivity for checkboxes
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                console.log('Checkbox changed:', this.checked);
+            });
+        });
+
+        // Button click handlers
+        document.querySelector('.btn-primary').addEventListener('click', function() {
+            alert('Pull request would be merged!');
+        });
+
+        document.querySelector('.btn-secondary').addEventListener('click', function() {
+            alert('Pull request would be closed!');
+        });
+    </script>
+</body>
+</html>
