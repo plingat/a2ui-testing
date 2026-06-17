@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pull Request Template</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f6f8fa;
+            color: #24292f;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .pr-header {
+            background: white;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .pr-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #0969da;
+        }
+
+        .pr-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #656d76;
+        }
+
+        .status-badge {
+            background: #2da44e;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .branch-info {
+            background: #f6f8fa;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .branch-arrow {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: monospace;
+        }
+
+        .branch {
+            background: #0969da;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .pr-description {
+            background: white;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #d0d7de;
+            padding-bottom: 5px;
+        }
+
+        .checklist {
+            list-style: none;
+            margin: 10px 0;
+        }
+
+        .checklist li {
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checklist input[type="checkbox"] {
+            margin: 0;
+        }
+
+        .files-changed {
+            background: white;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f6f8fa;
+        }
+
+        .file-item:last-child {
+            border-bottom: none;
+        }
+
+        .file-stats {
+            font-size: 12px;
+            color: #656d76;
+        }
+
+        .additions {
+            color: #2da44e;
+        }
+
+        .deletions {
+            color: #cf222e;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #2da44e;
+            color: white;
+            border-color: #2da44e;
+        }
+
+        .btn-secondary {
+            background: #f6f8fa;
+            color: #24292f;
+            border-color: #d0d7de;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="pr-header">
+            <h1 class="pr-title">Add user authentication system</h1>
+            <div class="pr-meta">
+                <span class="status-badge">Open</span>
+                <span>john-doe wants to merge 5 commits into main from feature/auth</span>
+                <span>•</span>
+                <span>2 hours ago</span>
+            </div>
+        </div>
+
+        <div class="branch-info">
+            <div class="branch-arrow">
+                <span class="branch">feature/auth</span>
+                <span>→</span>
+                <span class="branch">main</span>
+            </div>
+        </div>
+
+        <div class="pr-description">
+            <div class="section-title">Description</div>
+            <p>This PR implements a complete user authentication system with the following features:</p>
+            <ul style="margin: 10px 0 10px 20px;">
+                <li>User registration and login</li>
+                <li>Password hashing with bcrypt</li>
+                <li>JWT token-based authentication</li>
+                <li>Protected routes middleware</li>
+                <li>Password reset functionality</li>
+            </ul>
+
+            <div class="section-title" style="margin-top: 20px;">Changes Made</div>
+            <ul class="checklist">
+                <li><input type="checkbox" checked> Added user model and database schema</li>
+                <li><input type="checkbox" checked> Implemented registration endpoint</li>
+                <li><input type="checkbox" checked> Implemented login endpoint</li>
+                <li><input type="checkbox" checked> Added JWT middleware for protected routes</li>
+                <li><input type="checkbox" checked> Added password reset functionality</li>
+                <li><input type="checkbox" checked> Updated API documentation</li>
+                <li><input type="checkbox" checked> Added unit tests for auth endpoints</li>
+            </ul>
+
+            <div class="section-title" style="margin-top: 20px;">Testing</div>
+            <p>All tests are passing. The authentication system has been tested with:</p>
+            <ul style="margin: 10px 0 10px 20px;">
+                <li>Unit tests for all auth functions</li>
+                <li>Integration tests for API endpoints</li>
+                <li>Manual testing of the complete user flow</li>
+            </ul>
+        </div>
+
+        <div class="files-changed">
+            <div class="section-title">Files Changed (8)</div>
+            <div class="file-item">
+                <span>📄 src/models/User.js</span>
+                <span class="file-stats"><span class="additions">+45</span> <span class="deletions">-0</span></span>
+            </div>
+            <div class="file-item">
+                <span>📄 src/routes/auth.js</span>
+                <span class="file-stats"><span class="additions">+120</span> <span class="deletions">-0</span></span>
+            </div>
+            <div class="file-item">
+                <span>📄 src/middleware/auth.js</span>
+                <span class="file-stats"><span class="additions">+35</span> <span class="deletions">-0</span></span>
+            </div>
+            <div class="file-item">
+                <span>📄 src/utils/jwt.js</span>
+                <span class="file-stats"><span class="additions">+25</span> <span class="deletions">-0</span></span>
+            </div>
+            <div class="file-item">
+                <span>📄 tests/auth.test.js</span>
+                <span class="file-stats"><span class="additions">+85</span> <span class="deletions">-0</span></span>
+            </div>
+            <div class="file-item">
+                <span>📄 package.json</span>
+                <span class="file-stats"><span class="additions">+3</span> <span class="deletions">-0</span></span>
+            </div>
+            <div class="file-item">
+                <span>📄 README.md</span>
+                <span class="file-stats"><span class="additions">+15</span> <span class="deletions">-2</span></span>
+            </div>
+            <div class="file-item">
+                <span>📄 docs/api.md</span>
+                <span class="file-stats"><span class="additions">+40</span> <span class="deletions">-0</span></span>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-primary">Merge pull request</button>
+            <button class="btn btn-secondary">Close pull request</button>
+            <button class="btn btn-secondary">Add review</button>
+        </div>
+    </div>
+
+    <script>
+        // Simple interactivity for the PR interface
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (this.textContent === 'Merge pull request') {
+                    alert('Pull request merged successfully!');
+                } else if (this.textContent === 'Close pull request') {
+                    alert('Pull request closed.');
+                } else if (this.textContent === 'Add review') {
+                    alert('Review interface would open here.');
+                }
+            });
+        });
+
+        // Make checkboxes interactive
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                console.log('Checkbox toggled:', this.checked);
+            });
+        });
+    </script>
+</body>
+</html>
